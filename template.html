@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F5F0">
+<title>Radar O&amp;G</title>
+<style>
+:root{
+  --bg:#F7F5F0; --card:#FFFFFF; --ink:#1A1917; --muted:#6E6A63; --soft:#9A958C;
+  --line:#E6E2DA; --land:#ECE8E0; --land-on:#DCE6DF; --land-hover:#CFDDD4;
+  --open:#2F6B4F; --open-bg:#E6F0EA; --soon:#9A6A14; --soon-bg:#F5EDDC;
+  --closed:#8A857C; --closed-bg:#EFEDE8; --no:#A2463A; --no-bg:#F6E6E3;
+  --check:#3C5A8A; --check-bg:#E5EBF4;
+  --ease:cubic-bezier(.42,0,.58,1); --t:200ms;
+  --r:16px; --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:40px; --s6:48px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141412; --card:#1C1C1A; --ink:#F1EFEA; --muted:#A8A39A; --soft:#7D786F;
+    --line:#2C2B28; --land:#252522; --land-on:#24362C; --land-hover:#2E4538;
+    --open:#7CC4A0; --open-bg:#1D2E25; --soon:#E0B45E; --soon-bg:#2F2717;
+    --closed:#8F8A81; --closed-bg:#252421; --no:#E08A7E; --no-bg:#33201D;
+    --check:#8FB0E0; --check-bg:#1D2533;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141412; --card:#1C1C1A; --ink:#F1EFEA; --muted:#A8A39A; --soft:#7D786F;
+  --line:#2C2B28; --land:#252522; --land-on:#24362C; --land-hover:#2E4538;
+  --open:#7CC4A0; --open-bg:#1D2E25; --soon:#E0B45E; --soon-bg:#2F2717;
+  --closed:#8F8A81; --closed-bg:#252421; --no:#E08A7E; --no-bg:#33201D;
+  --check:#8FB0E0; --check-bg:#1D2533;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:var(--s6)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--s2)}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit}
+
+/* header */
+header{padding:var(--s5) 0 var(--s3)}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:32px;line-height:40px;font-weight:700;letter-spacing:-.02em;margin-top:var(--s1)}
+.sub{color:var(--muted);margin-top:var(--s1);max-width:640px}
+.profile{display:flex;flex-wrap:wrap;gap:var(--s1);margin-top:var(--s2)}
+.pill{display:inline-flex;align-items:center;gap:var(--s1);height:32px;padding:0 12px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);background:var(--card)}
+.pill input{border:0;background:transparent;color:var(--ink);font:inherit;width:118px;outline:none}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s1);margin:var(--s3) 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:var(--s2);text-align:left;transition:border-color var(--t) var(--ease),transform var(--t) var(--ease)}
+.stat:hover{transform:translateY(-2px)}
+.stat.on{border-color:var(--ink)}
+.stat b{display:block;font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.02em}
+.stat span{font-size:13px;color:var(--muted)}
+.stat i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+
+/* layout */
+.grid{display:grid;grid-template-columns:1fr;gap:var(--s3)}
+@media(min-width:960px){.grid{grid-template-columns:5fr 6fr;align-items:start}.mapcard{position:sticky;top:var(--s2)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.mapcard{padding:var(--s2)}
+.maphead{display:flex;justify-content:space-between;align-items:center;gap:var(--s1);margin-bottom:var(--s1)}
+.maphead h2,.sec h2{font-size:16px;line-height:24px;font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:var(--s2);font-size:12px;color:var(--muted);margin-top:var(--s1)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+svg.map{width:100%;height:auto;display:block;touch-action:manipulation}
+.uf{fill:var(--land);stroke:var(--card);stroke-width:1.5;transition:fill var(--t) var(--ease);cursor:default}
+.uf.has{fill:var(--land-on);cursor:pointer}
+.uf.has:hover,.uf.sel{fill:var(--land-hover)}
+.uf.sel{stroke:var(--ink);stroke-width:2}
+.pin{cursor:pointer;transition:transform var(--t) var(--ease);transform-box:fill-box;transform-origin:center}
+.pin:hover{transform:scale(1.25)}
+.pin circle.halo{opacity:.18}
+.ufl{font-size:13px;fill:var(--soft);pointer-events:none;font-weight:600;letter-spacing:.04em}
+.tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:16px;padding:8px 12px;border-radius:8px;opacity:0;transform:translateY(4px);transition:opacity var(--t) var(--ease),transform var(--t) var(--ease);max-width:240px;z-index:10}
+.tip.show{opacity:1;transform:none}
+.selbar{display:none;align-items:center;justify-content:space-between;margin-top:var(--s1);padding:var(--s1) 12px;border-radius:8px;background:var(--bg);font-size:13px}
+.selbar.show{display:flex}
+.selbar button{color:var(--muted);text-decoration:underline}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:var(--s1);margin-bottom:var(--s2)}
+.chip{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted);transition:all var(--t) var(--ease)}
+.chip:hover{color:var(--ink)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.sel{height:32px;border:1px solid var(--line);border-radius:999px;padding:0 32px 0 12px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%236E6A63' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat right 12px center;color:var(--ink);font:inherit;font-size:13px;-webkit-appearance:none;appearance:none;outline:none;cursor:pointer;transition:border-color var(--t) var(--ease),opacity var(--t) var(--ease);flex:1 1 140px;min-width:0}
+.sel:focus,.sel:hover{border-color:var(--ink)}
+.sel:disabled{opacity:.5;cursor:default;border-color:var(--line)}
+.sel.on{border-color:var(--ink);font-weight:600}
+.selrow{display:flex;gap:var(--s1);margin-bottom:var(--s1);flex-wrap:wrap}
+.type{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:0 6px;margin-left:6px;vertical-align:1px;font-weight:600}
+.search{flex:1 1 200px;height:32px;border:1px solid var(--line);border-radius:999px;padding:0 var(--s2);background:var(--card);color:var(--ink);font:inherit;font-size:13px;outline:none;transition:border-color var(--t) var(--ease)}
+.search:focus{border-color:var(--ink)}
+
+/* list */
+.list{display:grid;gap:var(--s1)}
+.job{padding:var(--s2) var(--s2) var(--s2);transition:border-color var(--t) var(--ease),box-shadow var(--t) var(--ease)}
+.job:hover{border-color:#CFCAC0;box-shadow:0 8px 24px -16px rgba(0,0,0,.25)}
+.jtop{display:flex;justify-content:space-between;gap:var(--s2);align-items:flex-start}
+.co{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.jt{font-size:17px;line-height:24px;font-weight:600;margin-top:4px;letter-spacing:-.01em}
+.badge{flex:none;display:inline-flex;align-items:center;height:24px;padding:0 var(--s1);border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.b-open{color:var(--open);background:var(--open-bg)}
+.b-soon{color:var(--soon);background:var(--soon-bg)}
+.b-closed{color:var(--closed);background:var(--closed-bg)}
+.b-cont{color:var(--check);background:var(--check-bg)}
+.meta{display:flex;flex-wrap:wrap;gap:4px var(--s2);margin-top:var(--s1);font-size:13px;color:var(--muted)}
+.meta strong{color:var(--ink);font-weight:600}
+.elig{display:flex;align-items:center;gap:var(--s1);margin-top:12px;font-size:13px;padding:var(--s1) 12px;border-radius:8px}
+.e-yes{background:var(--open-bg);color:var(--open)}
+.e-no{background:var(--no-bg);color:var(--no)}
+.e-chk{background:var(--check-bg);color:var(--check)}
+.note{margin-top:12px;font-size:14px;color:var(--ink);opacity:.85}
+.acts{display:flex;flex-wrap:wrap;gap:var(--s1);margin-top:var(--s2);align-items:center}
+.btn{display:inline-flex;align-items:center;height:36px;padding:0 var(--s2);border-radius:999px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid var(--line);transition:all var(--t) var(--ease)}
+.btn.pri{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.btn.pri:hover{opacity:.85}
+.btn:not(.pri):hover{border-color:var(--ink)}
+.mark{margin-left:auto;font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;transition:all var(--t) var(--ease)}
+.mark:hover{color:var(--ink);background:var(--bg)}
+.mark.on{color:var(--open);background:var(--open-bg)}
+.empty{padding:var(--s4) var(--s2);text-align:center;color:var(--muted)}
+.count{font-size:13px;color:var(--muted);margin-bottom:var(--s1)}
+
+/* timeline */
+.sec{margin-top:var(--s6)}
+.sec p.lead{color:var(--muted);margin-top:4px;max-width:720px}
+.tl{margin-top:var(--s2);padding:var(--s2)}
+.tlrow{display:grid;grid-template-columns:72px 1fr;gap:var(--s2);padding:12px 0;border-bottom:1px solid var(--line)}
+.tlrow:last-child{border-bottom:0}
+.tlm{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.tlc{font-size:14px}
+.tlc span{color:var(--muted)}
+.tips{display:grid;gap:var(--s1);margin-top:var(--s2);grid-template-columns:1fr}
+@media(min-width:720px){.tips{grid-template-columns:repeat(3,1fr)}}
+.tipc{padding:var(--s2)}
+.tipc h3{font-size:15px;font-weight:600;line-height:24px}
+.tipc p{font-size:14px;color:var(--muted);margin-top:4px}
+footer{margin-top:var(--s5);font-size:12px;color:var(--soft);line-height:1.7}
+footer a{color:var(--muted)}
+@media(max-width:640px){
+  h1{font-size:28px;line-height:32px}
+  header{padding-top:var(--s4)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .mark{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Radar O&amp;G · uso pessoal</div>
+    <h1>Vagas em óleo e gás para o seu perfil</h1>
+    <p class="sub">Estágios e programas de entrada no setor, filtrados para quem estuda Engenharia Química, já estagia e ainda não tem experiência na área.</p>
+    <div class="profile">
+      <label class="pill">Formatura <input id="grad" type="month" value="2027-12" aria-label="Mês de formatura"></label>
+      <span class="pill">Eng. Química · Oswaldo Cruz</span>
+      <span class="pill" id="upd"></span>
+    </div>
+  </header>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="grid">
+    <section class="card mapcard" aria-label="Mapa de vagas">
+      <div class="maphead"><h2>Onde estão as vagas</h2></div>
+      <svg class="map" id="map" viewBox="0 0 __W__ __H__" role="img" aria-label="Mapa do Brasil com as vagas por cidade"></svg>
+      <div class="legend">
+        <span><i class="dot" style="background:var(--open)"></i>Aberta</span>
+        <span><i class="dot" style="background:var(--check)"></i>Contínua / a confirmar</span>
+        <span><i class="dot" style="background:var(--soon)"></i>Abre em breve</span>
+        <span><i class="dot" style="background:var(--closed)"></i>Encerrada</span>
+      </div>
+      <div class="selbar" id="selbar"><span id="seltxt"></span><button id="selclear">Ver Brasil todo</button></div>
+    </section>
+
+    <section aria-label="Lista de vagas">
+      <div class="selrow">
+        <select class="sel" id="fType" aria-label="Tipo de vaga">
+          <option value="all">Todos os tipos</option>
+          <option value="estagio">Só estágio</option>
+          <option value="naoestagio">Não é estágio</option>
+          <option value="programa">Programa de estágio</option>
+          <option value="avulsa">Vaga avulsa de estágio</option>
+          <option value="trainee">Trainee / recém-formado</option>
+          <option value="concurso">Concurso / efetivo</option>
+        </select>
+        <select class="sel" id="fUF" aria-label="Estado"></select>
+        <select class="sel" id="fCity" aria-label="Cidade" disabled></select>
+      </div>
+      <div class="filters" id="filters"></div>
+      <div class="filters">
+        <input class="search" id="q" type="search" placeholder="Buscar empresa, cidade ou área">
+        <button class="chip" id="onlyElig">Só onde sou elegível</button>
+      </div>
+      <div class="count" id="count"></div>
+      <div class="list" id="list"></div>
+    </section>
+  </div>
+
+  <section class="sec">
+    <h2>Sua janela de oportunidades</h2>
+    <p class="lead">Estágio exige matrícula ativa, então para você ele termina em dez/2027. Muitos programas de 2027 já pedem formatura em 2028 — por isso a prioridade é agarrar os ciclos que abrem agora e no 1º semestre de 2027, e em seguida mirar os programas para recém-formados.</p>
+    <div class="card tl" id="tl"></div>
+    <div class="tips">
+      <div class="card tipc"><h3>Use o que você já tem</h3><p>Análise de dados e pricing na Bayer contam muito em áreas comerciais, planejamento e supply de distribuidoras (Raízen, Vibra, Ultragaz) e da Braskem.</p></div>
+      <div class="card tipc"><h3>Inglês decide</h3><p>Raízen Acelerar, MODEC e Halliburton pedem inglês avançado. Vale ter um certificado recente para anexar.</p></div>
+      <div class="card tipc"><h3>Química é sua vantagem</h3><p>Refino, petroquímica e processamento de gás valorizam Eng. Química mais do que E&amp;P. Braskem e refinarias são o encaixe mais natural.</p></div>
+    </div>
+  </section>
+
+  <footer id="foot"></footer>
+</div>
+<div class="tip" id="tip"></div>
+
+<script>
+const GEO = __GEO__;
+const UPDATED = "2026-10-26";
+
+const C = {
+  "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
+  "Duque de Caxias":["RJ",-22.79,-43.31], "Itaboraí":["RJ",-22.74,-42.86],
+  "São Paulo":["SP",-23.55,-46.63], "Santos":["SP",-23.96,-46.33], "Paulínia":["SP",-22.76,-47.15],
+  "Piracicaba":["SP",-22.72,-47.65], "Campinas":["SP",-22.91,-47.06],
+  "Vitória":["ES",-20.32,-40.34], "Camaçari":["BA",-12.70,-38.32], "Maceió":["AL",-9.67,-35.74],
+  "Triunfo":["RS",-29.94,-51.72], "Curitiba":["PR",-25.43,-49.27], "Betim":["MG",-19.97,-44.20],
+  "Ipojuca":["PE",-8.40,-35.06], "Cubatão":["SP",-23.89,-46.42], "Mauá":["SP",-23.67,-46.46],
+  "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88]
+};
+
+/* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
+   gmin/gmax: janela de formatura exigida (AAAA-MM). req:"formado" = só para quem já se formou. */
+const JOBS = [
+ {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-10-30",
+  cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo"],pay:"até R$ 2.800",
+  gmin:null,gmax:null,
+  note:"120 vagas em fábricas e escritórios, sem exigir experiência. Química é o coração da empresa — o encaixe mais direto com o seu curso. Depois da inscrição vem o teste SVA (2 a 10/nov).",
+  url:"https://clickpetroleoegas.com.br/braskem-abre-120-vagas-em-5-estados-com-bolsas-de-ate-r-28-mil-sem-exigir-experiencia-e-com-postos-em-fabricas-e-escritorios-asaf04",urlLabel:"Ver detalhes e inscrição"},
+ {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-06",
+  cities:["São Paulo","Piracicaba","Paulínia"],pay:"R$ 3.300",gmin:"2027-12",gmax:"2028-12",
+  note:"Negócio de combustíveis (licenciada Shell). Pede inglês avançado e participação em iniciativa estudantil (empresa júnior, liga, intercâmbio ou CA). Início entre dez/2026 e jan/2027 — dá para estar em SP.",
+  url:"https://www.raizen.com/programas-de-talentos/estagio-acelerar",urlLabel:"Inscrever-se"},
+ {id:"halli",co:"Halliburton",t:"Estágio Brasil · candidatura contínua",seg:"Serviços de petróleo",status:"cont",end:null,
+  cities:["Macaé","Rio de Janeiro","Vitória","Santos"],pay:"não divulgada",gmin:null,gmax:null,gwin:[6,24],
+  note:"Aceita candidaturas o ano todo; os cortes costumam ser em dezembro e junho — candidate-se até dezembro. Exige formatura entre 6 meses e 2 anos, 6h por dia. Santos é a opção mais perto de SP.",
+  url:"https://jobs.halliburton.com/content/latin-america/?locale=pt_BR",urlLabel:"Ver vagas"},
+ {id:"slb",co:"SLB (Schlumberger)",t:"Estágios · banco de talentos",seg:"Serviços de petróleo",status:"cont",end:null,
+  cities:["Rio de Janeiro","Macaé"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"A candidatura entra num banco de talentos que é cruzado com as vagas abertas. Filtre por Brasil no portal e ative alertas.",
+  url:"https://careers.slb.com/early-careers/internships",urlLabel:"Portal de estágios"},
+ {id:"anp",co:"ANP",t:"Estágio em Eng. Petróleo, Produção ou Química",seg:"Regulador",status:"cont",end:null,
+  cities:["Rio de Janeiro"],pay:"R$ 1.508",gmin:null,gmax:null,
+  note:"Vagas recorrentes da agência reguladora via Estagiando, em modelo híbrido; também surgem vagas remotas. A listagem que achei é de abril — confira se ainda está ativa.",
+  url:"https://www.infojobs.com.br/vagas-de-estagiario-engenharia-petroleo-em-rio-janeiro,-rj.aspx",urlLabel:"Ver anúncios"},
+ {id:"subsea7",co:"Subsea7",t:"Programa de Estágio",seg:"Offshore / subsea",status:"soon",end:null,expect:"nov–dez/2026",
+  cities:["Rio de Janeiro","Niterói"],pay:"bolsa + 13º e curso de inglês",gmin:"2027-09",gmax:"2028-09",
+  note:"O último ciclo fechou em 18/08/2026 e aceitava exatamente a sua formatura. A empresa já abriu turma em dezembro em anos anteriores — fique de olho no fim do ano.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-subsea7-2026",urlLabel:"Último edital"},
+ {id:"vibra",co:"Vibra Energia",t:"Ativagente Estag",seg:"Distribuição",status:"soon",end:null,expect:"nov–dez/2026",
+  cities:["Rio de Janeiro"],pay:"compatível com o mercado",gmin:null,gmax:null,
+  note:"Abre dois ciclos por ano: maio–junho e novembro–dezembro (em 2025 foi até 5/dez). Nível superior com 6h por dia; vagas no escritório do Rio e em bases pelo país.",
+  url:"https://www.vibraenergia.com.br/sites/default/files/2025-11/Est%C3%A3o-abertas-as-inscri%C3%A7%C3%B5es-para-programa-de-est%C3%A1gio-da-Vibra-com-vagas-para-n%C3%ADveis-t%C3%A9cnico-e-superior.pdf",urlLabel:"Último edital"},
+ {id:"comgas",co:"Comgás (Compass)",t:"Programa de Estágio",seg:"Gás natural",status:"soon",end:null,expect:"verifique já",
+  cities:["São Paulo","Campinas"],pay:"R$ 2.000",gmin:"2027-12",gmax:null,
+  note:"Maior distribuidora de gás canalizado do país, em SP. O ciclo anterior rodou em setembro e aceitava formatura a partir de dez/2027 — o encaixe é perfeito. Confira se a edição atual está aberta.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-comgas-2026",urlLabel:"Último edital"},
+ {id:"petrobras",co:"Petrobras",t:"Programa de Estágio (cadastro reserva)",seg:"Integrada / E&P",status:"soon",end:null,expect:"1º sem./2027",
+  cities:["Rio de Janeiro","Macaé","Duque de Caxias","Itaboraí","Santos","Betim","Ipojuca"],pay:"R$ 1.825",gmin:null,gmax:null,
+  note:"Edital 2026 rodou de 21/05 a 03/06, com prova online e cerca de 150 vagas em 12 estados, incluindo Eng. Química. Janela de inscrição curta — ponha um alerta para maio.",
+  url:"https://petrobras.com.br/quem-somos/estagios",urlLabel:"Página oficial"},
+ {id:"eqgrad",co:"Equinor",t:"Graduate Programme · recém-formados",seg:"Integrada / E&P",status:"soon",end:null,expect:"ago/2027",
+  cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"final",
+  note:"Programa de entrada para quem está se formando. A edição 2027 abriu de 7 a 27/ago/2026; a próxima deve sair em agosto de 2027, bem no seu último semestre.",
+  url:"https://www.equinor.com/careers/graduates",urlLabel:"Página oficial"},
+ {id:"hdeep",co:"Halliburton",t:"DEEP Program Brazil 2027",seg:"Serviços de petróleo",status:"open",end:null,
+  cities:["Macaé"],pay:"CLT",gmin:null,gmax:null,req:"formado",
+  note:"Programa para recém-formados (até 2 anos), com inglês avançado e mudança para Macaé. Ainda não é para você, mas é o modelo do que buscar em 2028.",
+  url:"https://clickpetroleoegas.com.br/acabou-de-se-formar-e-quer-trabalhar-com-petroleo-e-gas-halliburton-abre-programa-em-macae-para-2027-mas-uma-exigencia-pode-mudar-os-planos-de-quem-sonha-em-dar-o-primeiro-passo-na-carr-caes",urlLabel:"Ver detalhes"},
+ {id:"equinor",co:"Equinor",t:"Programa de Estágio",seg:"Integrada / E&P",status:"closed",end:"2026-08-13",
+  cities:["Rio de Janeiro"],pay:"R$ 1.875 + VR R$ 1.650",gmin:"2027-12",gmax:null,
+  note:"Aceitava formatura a partir de dez/2027, mas fechou em agosto. O próximo ciclo deve pedir formatura mais tardia — por isso o Graduate é o caminho.",
+  url:"https://clickpetroleoegas.com.br/equinor-oferece-bolsa-de-r-1-875-vale-refeicao-de-r-1-650-curso-de-ingles-e-plano-de-saude-em-nova-vaga-para-programa-de-estagio-em-logistica-offshore-ama01/",urlLabel:"Último edital"},
+ {id:"ultragaz",co:"Ultragaz",t:"Programa de Estágio 2027",seg:"GLP",status:"closed",end:null,
+  cities:["São Paulo"],pay:"R$ 3.000",gmin:"2027-12",gmax:"2027-12",
+  note:"Pedia exatamente formatura em dez/2027, com vagas em 17 cidades. Inscrições já encerradas; vale guardar para referência de calendário.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-ultragaz-2027",urlLabel:"Último edital"},
+ {id:"raizenT",co:"Raízen",t:"Talentos Raízen (estágio geral)",seg:"Distribuição",status:"closed",end:"2026-06-21",
+  cities:["São Paulo","Piracicaba"],pay:"R$ 2.000",gmin:"2027-07",gmax:"2028-07",
+  note:"Mais de 100 vagas pelo país. Fechou em junho; a próxima edição tende a abrir no meio do ano.",
+  url:"https://www.canalrural.com.br/vagas-de-emprego/raizen-abre-mais-de-100-vagas-de-estagio-em-diferentes-regioes-do-pais-veja-como-se-inscrever/",urlLabel:"Último edital"},
+ {id:"exxon",co:"ExxonMobil",t:"Programa de Estágio 2027",seg:"Integrada / E&P",status:"closed",end:"2026-08-19",
+  cities:["Rio de Janeiro","São Paulo","Curitiba"],pay:"R$ 2.400",gmin:"2028-01",gmax:"2029-02",
+  note:"Escritório de químicos em São Paulo, 4h por dia. Exigia formatura a partir de jan/2028.",
+  url:"https://www.esalq.usp.br/boletim/exxonmobil-abre-inscri%C3%A7%C3%B5es-para-programa-de-est%C3%A1gio-2027",urlLabel:"Último edital"},
+ {id:"modec",co:"MODEC",t:"Programa de Estágio 2027",seg:"Offshore / FPSO",status:"closed",end:null,
+  cities:["Rio de Janeiro","Macaé","Santos"],pay:"VA + VR R$ 3.388",gmin:"2028-07",gmax:"2029-06",
+  note:"FPSOs nas bacias de Campos e Santos. Exigia formatura no 2º sem./2028 ou 1º sem./2029 e inglês avançado.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-modec-2027",urlLabel:"Último edital"},
+ {id:"shell",co:"Shell Brasil",t:"Programa de Estágio",seg:"Integrada / E&P",status:"closed",end:"2026-02-27",
+  cities:["Rio de Janeiro","São Paulo"],pay:"não divulgada",gmin:null,gmax:null,gwin:[18,24],gwinStart:"2027-04",
+  note:"Ciclo anual no início do ano, híbrido. Pede formatura entre 18 e 24 meses após o início — num ciclo de 2027 isso cai em 2028–2029.",
+  url:"https://www.portaltela.com/economia/2026/02/05/shell-abre-vagas-de-estagio-em-geologia-e-exploracao/",urlLabel:"Último edital"}
+];
+
+JOBS.push(
+ {id:"karoonPA",co:"Karoon Energy",t:"Estágio People & Culture · People Analytics",seg:"Integrada / E&P",type:"avulsa",status:"open",end:null,seen:"2026-10-19",
+  cities:["Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Operadora australiana com campos na Bacia de Santos. É uma vaga de análise de dados — a mesma bagagem do seu estágio de pricing — e uma porta de entrada numa petroleira.",
+  url:"https://br.indeed.com/q-est%C3%A1gio-petr%C3%B3leo-e-g%C3%A1s-l-rio-de-janeiro,-rj-vagas.html",urlLabel:"Ver anúncio"},
+ {id:"karoonCT",co:"Karoon Energy",t:"Estágio em Controladoria",seg:"Integrada / E&P",type:"avulsa",status:"open",end:null,seen:"2026-10-19",
+  cities:["Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Área financeira de uma operadora de E&P. Costuma aceitar engenharias com perfil analítico; confira os cursos no anúncio.",
+  url:"https://br.indeed.com/q-est%C3%A1gio-petr%C3%B3leo-e-g%C3%A1s-l-rio-de-janeiro,-rj-vagas.html",urlLabel:"Ver anúncio"},
+ {id:"radix",co:"Radix",t:"Estágio de Tubulação",seg:"Engenharia de projetos",type:"avulsa",status:"open",end:null,seen:"2026-10-19",
+  cities:["Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Empresa de engenharia que faz projetos para plantas industriais e de óleo e gás. Tubulação é bem próximo de processos químicos.",
+  url:"https://br.indeed.com/q-est%C3%A1gio-petr%C3%B3leo-e-g%C3%A1s-l-rio-de-janeiro,-rj-vagas.html",urlLabel:"Ver anúncio"},
+ {id:"repsol",co:"Repsol Sinopec",t:"Estágio em Compras e Contratações",seg:"Integrada / E&P",type:"avulsa",status:"check",end:null,seen:"2026-08-11",
+  cities:["Rio de Janeiro"],pay:"benefícios + auxílio idioma",gmin:null,gmax:null,
+  note:"Lista Eng. Petróleo, Produção e Mecânica (Química não aparece). Publicada em agosto — vale tentar se ainda estiver no ar, já que suprimentos aceita perfis variados.",
+  url:"https://abler.in/v385182?source=riovagas",urlLabel:"Ver vaga"},
+ {id:"indovinya",co:"Indovinya (ex-Oxiteno)",t:"Programa de Estágio",seg:"Petroquímica",type:"programa",status:"soon",end:null,expect:"verifique já",
+  cities:["São Paulo","Mauá","Tremembé","Camaçari","Triunfo"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Química de derivados de petróleo. No ano passado as inscrições foram até 26/out, com início em fevereiro — a edição atual pode estar aberta ou fechando agora. Tem unidade em Mauá, perto de você.",
+  url:"https://destaque1.com/indovinya-abre-vagas-de-estagio-e-trainee-para-estudantes-do-ensino-superior-e-tecnico-em-camacari/",urlLabel:"Último edital"},
+ {id:"unipar",co:"Unipar",t:"Programa de Estágio",seg:"Química industrial",type:"programa",status:"soon",end:null,expect:"nov/2026",
+  cities:["Cubatão"],pay:"compatível com o mercado",gmin:null,gmax:null,
+  note:"Cloro-soda e PVC no polo de Cubatão, híbrido. O edital do ano passado saiu no começo de novembro e não fixava formatura.",
+  url:"https://unipar.99jobs.com/vagas/465487-programa-de-estagio-unipar-2026",urlLabel:"Último edital"},
+ {id:"ocyan",co:"Ocyan",t:"Programa de Estágio",seg:"Offshore / perfuração",type:"programa",status:"soon",end:null,expect:"ago–set (anual)",
+  cities:["Rio de Janeiro","Macaé"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Perfuração e plataformas. Em 2025 as inscrições iam até 17/set e pediam formatura preferencialmente no 2º sem./2027 — o seu perfil. Exigia morar no estado do RJ.",
+  url:"https://www.portosenavios.com.br/servicos/trabalho/ocyan-abre-inscricoes-para-11-vagas-de-estagio-no-rio-e-em-macae",urlLabel:"Último edital"},
+ {id:"ipiranga",co:"Ipiranga",t:"Ipiranga Talent (estágio)",seg:"Distribuição",type:"programa",status:"soon",end:null,expect:"fev–mar/2027",
+  cities:["Rio de Janeiro","São Paulo"],pay:"até R$ 2.100",gmin:null,gmax:null,
+  note:"Distribuidora de combustíveis do grupo Ultra; aceita todos os cursos, com vagas em engenharia e logística. O ciclo costuma abrir no início do ano.",
+  url:"https://www.estagiotrainee.com/post/programa-ipiranga-talent-2026",urlLabel:"Último edital"},
+ {id:"dow",co:"Dow",t:"Programa de Estágio",seg:"Petroquímica",type:"programa",status:"soon",end:null,expect:"fev–mar/2027",
+  cities:["São Paulo","Jundiaí"],pay:"R$ 2.000 (SP)",gmin:null,gmax:null,
+  note:"A edição 2026 rodou de 24/fev a 18/mar e pedia formatura entre dez/2027 e jul/2028. A de 2027 deve pedir formatura mais tardia — confira assim que sair.",
+  url:"https://www.ciadetalentos.com.br/estagiodow/",urlLabel:"Página do programa"},
+ {id:"transpetro",co:"Transpetro",t:"Concurso público (níveis médio, técnico e superior)",seg:"Logística de petróleo",type:"concurso",status:"closed",end:"2026-09-21",
+  cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
+  note:"Mais de 4 mil vagas, inscrições prorrogadas até 21/set. Exige diploma na posse, então é referência para depois de formado.",
+  url:"https://noticias.focusconcursos.com.br/noticias/concurso-transpetro-prorroga-inscricoes-ate-21-de-setembro",urlLabel:"Ver notícia"},
+ {id:"prio",co:"PRIO",t:"Trainee de Engenharia (offshore)",seg:"Integrada / E&P",type:"trainee",status:"closed",end:"2026-05-11",
+  cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
+  note:"Pede pelo menos 2 anos de formado e 2 de experiência na indústria — mostra o tipo de vaga que fica ao seu alcance por volta de 2030.",
+  url:"https://sejatrainee.com.br/trainee-prio-vagas-abertas/",urlLabel:"Ver detalhes"}
+);
+const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
+JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
+const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
+
+const TIMELINE = [
+ ["Agora","<b>Braskem</b> até 30/out e <b>Raízen Acelerar</b> até 06/nov. <span>Faça as duas esta semana.</span>"],
+ ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b> e <b>Unipar</b> costumam abrir. <span>Confira Comgás e Indovinya já.</span>"],
+ ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
+ ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho."],
+ ["Ago–Set","<b>Ocyan</b> (estágio) e <b>Equinor Graduate</b>, que abre para quem se forma no fim do ano."],
+ ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
+];
+
+/* ---------- lógica ---------- */
+const $ = s => document.querySelector(s);
+const today = new Date(); today.setHours(0,0,0,0);
+const ym = s => { const [y,m]=s.split("-").map(Number); return y*12+m-1; };
+const fmtYM = s => { const m=["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"]; const [y,mm]=s.split("-"); return m[+mm-1]+"/"+y; };
+const fmtD = s => { const d=new Date(s+"T00:00:00"); return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"short"}).replace(".",""); };
+
+let grad = "2027-12";
+try{ const g=localStorage.getItem("og_grad"); if(g) grad=g; }catch(e){}
+let marks = {};
+try{ marks = JSON.parse(localStorage.getItem("og_marks")||"{}"); }catch(e){}
+let fStatus = "all", fUF = null, fCity = null, fType = "all", fElig = false, q = "";
+
+function status(j){
+  if(j.end){ const e=new Date(j.end+"T23:59:59"); if(e<today && j.status!=="soon") return "closed"; }
+  return j.status;
+}
+function elig(j){
+  const g = ym(grad), nowYM = today.getFullYear()*12+today.getMonth();
+  if(j.req==="formado") return g<=nowYM ? ["yes","Você já é formado"] : ["no","Só para quem já se formou — vale a partir de "+fmtYM(grad)];
+  if(j.req==="final") return ["yes","Feito para quem se forma em "+fmtYM(grad)];
+  if(j.gwin){
+    const start = j.gwinStart ? ym(j.gwinStart) : nowYM;
+    const lo=start+j.gwin[0], hi=start+j.gwin[1], ok=g>=lo&&g<=hi;
+    return ok?["yes","Sua formatura está na janela exigida"]:["no","Exige formatura entre "+j.gwin[0]+" e "+j.gwin[1]+" meses após o início"];
+  }
+  if(!j.gmin && !j.gmax) return ["chk","Requisito de formatura não informado — confira no edital"];
+  const lo=j.gmin?ym(j.gmin):-1e9, hi=j.gmax?ym(j.gmax):1e9;
+  const range = j.gmin&&j.gmax ? (j.gmin===j.gmax?fmtYM(j.gmin):fmtYM(j.gmin)+" a "+fmtYM(j.gmax)) : j.gmin ? "a partir de "+fmtYM(j.gmin) : "até "+fmtYM(j.gmax);
+  return (g>=lo&&g<=hi) ? ["yes","Elegível · pede formatura "+range] : ["no","Fora do perfil · pede formatura "+range];
+}
+const SLAB = {open:"Aberta",cont:"Fluxo contínuo",check:"A confirmar",soon:"Abre em breve",closed:"Encerrada"};
+const SCOL = {open:"var(--open)",cont:"var(--check)",check:"var(--check)",soon:"var(--soon)",closed:"var(--closed)"};
+const RANK = {open:0,cont:1,check:1,soon:2,closed:3};
+
+function badge(j){
+  const s=status(j);
+  if(s==="open" && j.end){
+    const d=Math.round((new Date(j.end+"T00:00:00")-today)/864e5);
+    const txt = d===0?"Fecha hoje":d===1?"Fecha amanhã":"Faltam "+d+" dias";
+    return `<span class="badge b-open">${txt}</span>`;
+  }
+  if(s==="soon") return `<span class="badge b-soon">Previsto: ${j.expect}</span>`;
+  if(s==="cont") return `<span class="badge b-cont">Fluxo contínuo</span>`;
+  if(s==="check") return `<span class="badge b-cont">Confirmar se ativa</span>`;
+  if(s==="open" && j.seen) return `<span class="badge b-open">Ativa em ${fmtD(j.seen)}</span>`;
+  if(s==="open") return `<span class="badge b-open">Aberta</span>`;
+  return `<span class="badge b-closed">Encerrada${j.end?" "+fmtD(j.end):""}</span>`;
+}
+
+function filtered(){
+  return JOBS.filter(j=>{
+    const s=status(j);
+    if(fStatus!=="all"){
+      if(fStatus==="now" && !(s==="open"||s==="cont"||s==="check")) return false;
+      if(fStatus!=="now" && s!==fStatus) return false;
+    }
+    if(fUF && !j.cities.some(c=>C[c][0]===fUF)) return false;
+    if(fCity && !j.cities.includes(fCity)) return false;
+    if(fType!=="all"){
+      const est = j.type==="programa"||j.type==="avulsa";
+      if(fType==="estagio" && !est) return false;
+      if(fType==="naoestagio" && est) return false;
+      if(!["estagio","naoestagio"].includes(fType) && j.type!==fType) return false;
+    }
+    if(fElig && elig(j)[0]==="no") return false;
+    if(q){ const h=(j.co+" "+j.t+" "+j.seg+" "+j.cities.join(" ")+" "+j.cities.map(c=>C[c][0]).join(" ")).toLowerCase(); if(!h.includes(q)) return false; }
+    return true;
+  }).sort((a,b)=>{
+    const r=RANK[status(a)]-RANK[status(b)]; if(r) return r;
+    const ea=elig(a)[0]==="no"?1:0, eb=elig(b)[0]==="no"?1:0; if(ea-eb) return ea-eb;
+    return (a.end||"9999").localeCompare(b.end||"9999");
+  });
+}
+
+function renderStats(){
+  const all=JOBS.map(j=>[status(j),elig(j)[0]]);
+  const n = f => all.filter(f).length;
+  const items=[
+    ["now","Inscreva-se já",n(([s,e])=>(s==="open"||s==="cont"||s==="check")&&e!=="no"),"var(--open)"],
+    ["soon","Abrem em breve",n(([s])=>s==="soon"),"var(--soon)"],
+    ["closed","Encerradas",n(([s])=>s==="closed"),"var(--closed)"],
+    ["all","Total mapeado",JOBS.length,"var(--ink)"]
+  ];
+  $("#stats").innerHTML=items.map(([k,l,v,c])=>`<button class="stat ${fStatus===k?"on":""}" data-k="${k}"><b>${v}</b><span><i style="background:${c}"></i>${l}</span></button>`).join("");
+  $("#stats").querySelectorAll(".stat").forEach(b=>b.onclick=()=>{fStatus=b.dataset.k; if(fStatus==="now")fElig=true; renderAll();});
+}
+const UFN={AC:"Acre",AL:"Alagoas",AP:"Amapá",AM:"Amazonas",BA:"Bahia",CE:"Ceará",DF:"Distrito Federal",ES:"Espírito Santo",GO:"Goiás",MA:"Maranhão",MT:"Mato Grosso",MS:"Mato Grosso do Sul",MG:"Minas Gerais",PA:"Pará",PB:"Paraíba",PR:"Paraná",PE:"Pernambuco",PI:"Piauí",RJ:"Rio de Janeiro",RN:"Rio Grande do Norte",RS:"Rio Grande do Sul",RO:"Rondônia",RR:"Roraima",SC:"Santa Catarina",SP:"São Paulo",SE:"Sergipe",TO:"Tocantins"};
+function renderSelects(){
+  const ufs=[...new Set(JOBS.flatMap(j=>j.cities.map(c=>C[c][0])))].sort((a,b)=>UFN[a].localeCompare(UFN[b]));
+  const cnt=(f)=>JOBS.filter(f).length;
+  $("#fUF").innerHTML=`<option value="">Todos os estados</option>`+ufs.map(u=>`<option value="${u}" ${fUF===u?"selected":""}>${UFN[u]} (${cnt(j=>j.cities.some(c=>C[c][0]===u))})</option>`).join("");
+  const cs=fUF?[...new Set(JOBS.flatMap(j=>j.cities.filter(c=>C[c][0]===fUF)))].sort((a,b)=>a.localeCompare(b)):[];
+  $("#fCity").innerHTML=`<option value="">${fUF?"Todas as cidades":"Escolha um estado"}</option>`+cs.map(c=>`<option value="${c}" ${fCity===c?"selected":""}>${c} (${cnt(j=>j.cities.includes(c))})</option>`).join("");
+  $("#fCity").disabled=!fUF;
+  $("#fUF").classList.toggle("on",!!fUF); $("#fCity").classList.toggle("on",!!fCity); $("#fType").classList.toggle("on",fType!=="all");
+  $("#fType").value=fType;
+}
+function renderFilters(){
+  renderSelects();
+  const opts=[["all","Todas"],["now","Abertas agora"],["soon","Em breve"],["closed","Encerradas"]];
+  $("#filters").innerHTML=opts.map(([k,l])=>`<button class="chip ${fStatus===k?"on":""}" data-k="${k}">${l}</button>`).join("");
+  $("#filters").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{fStatus=b.dataset.k;renderAll();});
+  $("#onlyElig").classList.toggle("on",fElig);
+}
+function renderList(){
+  const L=filtered();
+  $("#count").textContent = L.length+(L.length===1?" oportunidade":" oportunidades")+(fCity?" em "+fCity:fUF?" em "+UFN[fUF]:"");
+  if(!L.length){ $("#list").innerHTML=`<div class="card empty">Nada com esses filtros. Tente limpar a seleção do mapa.</div>`; return; }
+  $("#list").innerHTML=L.map(j=>{
+    const [ek,et]=elig(j); const cls={yes:"e-yes",no:"e-no",chk:"e-chk"}[ek];
+    const icon={yes:"✓",no:"✕",chk:"?"}[ek];
+    const cities=[...new Set(j.cities)].map(c=>c+" · "+C[c][0]).join(", ");
+    const m=marks[j.id];
+    return `<article class="card job" id="j-${j.id}">
+      <div class="jtop"><div><div class="co">${j.co} · ${j.seg}</div><div class="jt">${j.t}<span class="type">${TLAB[j.type]}</span></div></div>${badge(j)}</div>
+      <div class="meta"><span>${cities}</span><span>Bolsa <strong>${j.pay}</strong></span>${j.end&&status(j)==="open"?`<span>Prazo <strong>${fmtD(j.end)}</strong></span>`:""}</div>
+      <div class="elig ${cls}"><b>${icon}</b>${et}</div>
+      <p class="note">${j.note}</p>
+      <div class="acts">
+        <a class="btn ${status(j)!=="closed"?"pri":""}" href="${j.url}" target="_blank" rel="noopener">${j.urlLabel}</a>
+        <button class="mark ${m?"on":""}" data-id="${j.id}">${m?"✓ Me inscrevi":"Marcar como inscrito"}</button>
+      </div>
+    </article>`;
+  }).join("");
+  $("#list").querySelectorAll(".mark").forEach(b=>b.onclick=()=>{
+    marks[b.dataset.id]=!marks[b.dataset.id];
+    try{localStorage.setItem("og_marks",JSON.stringify(marks));}catch(e){}
+    renderList();
+  });
+}
+
+/* ---------- mapa ---------- */
+const NS="http://www.w3.org/2000/svg";
+const [MINX,MAXY,K,S]=GEO.proj;
+const P=(lat,lon)=>[(lon-MINX)*K*S,(MAXY-lat)*S];
+const LABEL={AM:[-4.5,-64.5],PA:[-4.5,-52.5],MT:[-12.8,-55.8],BA:[-12.3,-41.6],MG:[-18.3,-44.7],GO:[-15.9,-49.6],MS:[-20.5,-54.8],RS:[-29.8,-53.6],PR:[-24.6,-51.6],SP:[-22.2,-48.8],TO:[-10.2,-48.3],MA:[-5.2,-45.3],PI:[-7.5,-42.9],CE:[-5.2,-39.4],RO:[-10.9,-62.8],AC:[-9.2,-70.3],RR:[2.0,-61.4],AP:[1.4,-51.8],SC:[-27.3,-50.4]};
+
+function renderMap(){
+  const svg=$("#map"); svg.innerHTML="";
+  const ufCount={}; JOBS.forEach(j=>new Set(j.cities.map(c=>C[c][0])).forEach(u=>ufCount[u]=(ufCount[u]||0)+1));
+  const g=document.createElementNS(NS,"g");
+  Object.entries(GEO.paths).forEach(([uf,d])=>{
+    const p=document.createElementNS(NS,"path");
+    p.setAttribute("d",d); p.setAttribute("class","uf"+(ufCount[uf]?" has":"")+(fUF===uf?" sel":""));
+    if(ufCount[uf]){
+      p.onclick=()=>{fUF = fUF===uf?null:uf; fCity=null; renderAll();};
+      p.onmousemove=e=>tip(e,`<b>${uf}</b> · ${ufCount[uf]} oportunidade${ufCount[uf]>1?"s":""}`);
+      p.onmouseleave=hideTip;
+    }
+    g.appendChild(p);
+  });
+  svg.appendChild(g);
+  Object.entries(LABEL).forEach(([uf,[la,lo]])=>{
+    const [x,y]=P(la,lo); const t=document.createElementNS(NS,"text");
+    t.setAttribute("x",x); t.setAttribute("y",y); t.setAttribute("text-anchor","middle"); t.setAttribute("class","ufl"); t.textContent=uf; svg.appendChild(t);
+  });
+  // pins por cidade
+  const byCity={};
+  JOBS.forEach(j=>j.cities.forEach(c=>{(byCity[c]=byCity[c]||[]).push(j);}));
+  Object.entries(byCity).sort((a,b)=>b[1].length-a[1].length).forEach(([c,js])=>{
+    const [uf,la,lo]=C[c]; const [x,y]=P(la,lo);
+    const best=js.map(status).sort((a,b)=>RANK[a]-RANK[b])[0];
+    const r=Math.min(6+js.length*1.6,16);
+    const pg=document.createElementNS(NS,"g"); pg.setAttribute("class","pin");
+    pg.innerHTML=`<circle class="halo" cx="${x}" cy="${y}" r="${r+7}" fill="${SCOL[best]}"/><circle cx="${x}" cy="${y}" r="${r}" fill="${SCOL[best]}" stroke="var(--card)" stroke-width="2"/>`+
+      (js.length>1?`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--card)" style="pointer-events:none">${js.length}</text>`:"");
+    const html=`<b>${c} · ${uf}</b><br>`+js.sort((a,b)=>RANK[status(a)]-RANK[status(b)]).map(j=>`${j.co} — ${SLAB[status(j)]}`).join("<br>");
+    pg.onmousemove=e=>tip(e,html); pg.onmouseleave=hideTip;
+    pg.onclick=e=>{e.stopPropagation(); fUF=uf; fCity=c; renderAll(); hideTip(); document.querySelector(".list").scrollIntoView({behavior:"smooth",block:"start"});};
+    svg.appendChild(pg);
+  });
+  $("#selbar").classList.toggle("show",!!fUF);
+  $("#seltxt").textContent = fUF?("Mostrando só "+(fCity?fCity+" · ":"")+UFN[fUF]):"";
+}
+const tipEl=$("#tip");
+function tip(e,h){tipEl.innerHTML=h;tipEl.classList.add("show");const w=tipEl.offsetWidth;let x=e.clientX+12;if(x+w>innerWidth-8)x=e.clientX-w-12;tipEl.style.left=x+"px";tipEl.style.top=(e.clientY+12)+"px";}
+function hideTip(){tipEl.classList.remove("show");}
+
+function renderAll(){ renderStats(); renderFilters(); renderMap(); renderList(); }
+
+$("#selclear").onclick=()=>{fUF=null;fCity=null;renderAll();};
+$("#fUF").onchange=e=>{fUF=e.target.value||null;fCity=null;renderAll();};
+$("#fCity").onchange=e=>{fCity=e.target.value||null;renderAll();};
+$("#fType").onchange=e=>{fType=e.target.value;renderAll();};
+$("#q").oninput=e=>{q=e.target.value.trim().toLowerCase();renderList();renderMap();};
+$("#onlyElig").onclick=()=>{fElig=!fElig;renderAll();};
+$("#grad").value=grad;
+$("#grad").onchange=e=>{ if(!e.target.value) return; grad=e.target.value; try{localStorage.setItem("og_grad",grad);}catch(_){} renderAll(); };
+$("#upd").textContent="Atualizado em "+new Date(UPDATED+"T12:00:00").toLocaleDateString("pt-BR");
+$("#tl").innerHTML=TIMELINE.map(([m,c])=>`<div class="tlrow"><div class="tlm">${m}</div><div class="tlc">${c}</div></div>`).join("");
+$("#foot").innerHTML="Dados reunidos de páginas oficiais e portais de vagas em "+new Date(UPDATED+"T12:00:00").toLocaleDateString("pt-BR")+". Prazos e requisitos mudam — sempre confirme no link da vaga antes de se inscrever. Ciclos “em breve” são previsões com base nas edições anteriores.";
+renderAll();
+</script>
+</body>
+</html>
