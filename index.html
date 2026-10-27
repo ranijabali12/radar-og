@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F7F5F0">
 <title>Radar O&amp;G</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Radar O&amp;G">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 :root{
   --bg:#F7F5F0; --card:#FFFFFF; --ink:#1A1917; --muted:#6E6A63; --soft:#9A958C;
@@ -160,6 +167,7 @@ footer a{color:var(--muted)}
       <label class="pill">Formatura <input id="grad" type="month" value="2027-12" aria-label="Mês de formatura"></label>
       <span class="pill">Eng. Química · Oswaldo Cruz</span>
       <span class="pill" id="upd"></span>
+      <button class="pill" id="install" style="display:none;color:var(--bg);background:var(--ink);border-color:var(--ink);font-weight:600">Instalar app</button>
     </div>
   </header>
 
@@ -558,6 +566,13 @@ $("#upd").textContent="Atualizado em "+new Date(UPDATED+"T12:00:00").toLocaleDat
 $("#tl").innerHTML=TIMELINE.map(([m,c])=>`<div class="tlrow"><div class="tlm">${m}</div><div class="tlc">${c}</div></div>`).join("");
 $("#foot").innerHTML="Dados reunidos de páginas oficiais e portais de vagas em "+new Date(UPDATED+"T12:00:00").toLocaleDateString("pt-BR")+". Prazos e requisitos mudam — sempre confirme no link da vaga antes de se inscrever. Ciclos “em breve” são previsões com base nas edições anteriores.";
 renderAll();
+if("serviceWorker" in navigator && window.isSecureContext){
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+let deferredInstall=null;
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstall=e;$("#install").style.display="inline-flex";});
+$("#install").onclick=async()=>{ if(!deferredInstall) return; deferredInstall.prompt(); await deferredInstall.userChoice; deferredInstall=null; $("#install").style.display="none"; };
+addEventListener("appinstalled",()=>{$("#install").style.display="none";});
 </script>
 </body>
 </html>
