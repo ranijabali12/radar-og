@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-10-26";
+const UPDATED = "2026-10-27";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -244,9 +244,9 @@ const C = {
    gmin/gmax: janela de formatura exigida (AAAA-MM). req:"formado" = só para quem já se formou. */
 const JOBS = [
  {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-10-30",
-  cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo"],pay:"até R$ 2.800",
-  gmin:null,gmax:null,
-  note:"120 vagas em fábricas e escritórios, sem exigir experiência. Química é o coração da empresa — o encaixe mais direto com o seu curso. Depois da inscrição vem o teste SVA (2 a 10/nov).",
+  cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo","Paulínia","Cubatão","Campinas"],pay:"R$ 2.200 a R$ 2.800",
+  gmin:"2028-06",gmax:"2029-12",
+  note:"120 vagas em fábricas e escritórios, sem exigir experiência. Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Depois da inscrição vem o teste SVA (2 a 10/nov).",
   url:"https://clickpetroleoegas.com.br/braskem-abre-120-vagas-em-5-estados-com-bolsas-de-ate-r-28-mil-sem-exigir-experiencia-e-com-postos-em-fabricas-e-escritorios-asaf04",urlLabel:"Ver detalhes e inscrição"},
  {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-06",
   cities:["São Paulo","Piracicaba","Paulínia"],pay:"R$ 3.300",gmin:"2027-12",gmax:"2028-12",
@@ -296,10 +296,10 @@ const JOBS = [
   cities:["São Paulo"],pay:"R$ 3.000",gmin:"2027-12",gmax:"2027-12",
   note:"Pedia exatamente formatura em dez/2027, com vagas em 17 cidades. Inscrições já encerradas; vale guardar para referência de calendário.",
   url:"https://www.estagiotrainee.com/post/programa-estagio-ultragaz-2027",urlLabel:"Último edital"},
- {id:"raizenT",co:"Raízen",t:"Talentos Raízen (estágio geral)",seg:"Distribuição",status:"closed",end:"2026-06-21",
-  cities:["São Paulo","Piracicaba"],pay:"R$ 2.000",gmin:"2027-07",gmax:"2028-07",
-  note:"Mais de 100 vagas pelo país. Fechou em junho; a próxima edição tende a abrir no meio do ano.",
-  url:"https://www.canalrural.com.br/vagas-de-emprego/raizen-abre-mais-de-100-vagas-de-estagio-em-diferentes-regioes-do-pais-veja-como-se-inscrever/",urlLabel:"Último edital"},
+ {id:"raizenT",co:"Raízen",t:"Estágio Talentos 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-27",
+  cities:["São Paulo","Rio de Janeiro","Curitiba","Betim"],pay:"não divulgada",gmin:"2027-12",gmax:"2028-12",
+  note:"Nova edição nacional, focada no negócio de combustíveis, com vagas em 11 estados e no DF. Aceita formatura entre dez/2027 e dez/2028 — exatamente o seu caso — e não pede inglês avançado como o Acelerar. Bolsa não divulgada (a edição de junho pagava R$ 2.000); confira as cidades no portal.",
+  url:"https://carreiras.raizen.com.br/talentos/",urlLabel:"Inscrever-se"},
  {id:"exxon",co:"ExxonMobil",t:"Programa de Estágio 2027",seg:"Integrada / E&P",status:"closed",end:"2026-08-19",
   cities:["Rio de Janeiro","São Paulo","Curitiba"],pay:"R$ 2.400",gmin:"2028-01",gmax:"2029-02",
   note:"Escritório de químicos em São Paulo, 4h por dia. Exigia formatura a partir de jan/2028.",
@@ -351,6 +351,10 @@ JOBS.push(
   cities:["São Paulo","Jundiaí"],pay:"R$ 2.000 (SP)",gmin:null,gmax:null,
   note:"A edição 2026 rodou de 24/fev a 18/mar e pedia formatura entre dez/2027 e jul/2028. A de 2027 deve pedir formatura mais tardia — confira assim que sair.",
   url:"https://www.ciadetalentos.com.br/estagiodow/",urlLabel:"Página do programa"},
+ {id:"ultrapar",co:"Ultrapar",t:"Programa de Estágio 2027 (holding)",seg:"Distribuição",type:"programa",status:"closed",end:null,
+  cities:["São Paulo"],pay:"R$ 3.200",gmin:"2027-12",gmax:"2029-12",
+  note:"Holding de Ipiranga e Ultragaz, presencial em São Paulo, aceitava formatura entre dez/2027 e dez/2029 e engenharias. Divulgado no fim de setembro e já encerrado — anote o calendário para a próxima edição.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-ultrapar-2027",urlLabel:"Último edital"},
  {id:"transpetro",co:"Transpetro",t:"Concurso público (níveis médio, técnico e superior)",seg:"Logística de petróleo",type:"concurso",status:"closed",end:"2026-09-21",
   cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
   note:"Mais de 4 mil vagas, inscrições prorrogadas até 21/set. Exige diploma na posse, então é referência para depois de formado.",
@@ -365,11 +369,11 @@ JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Braskem</b> até 30/out e <b>Raízen Acelerar</b> até 06/nov. <span>Faça as duas esta semana.</span>"],
+ ["Agora","<b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Braskem (até 30/out) pede formatura a partir de jun/2028.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b> e <b>Unipar</b> costumam abrir. <span>Confira Comgás e Indovinya já.</span>"],
  ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho."],
- ["Ago–Set","<b>Ocyan</b> (estágio) e <b>Equinor Graduate</b>, que abre para quem se forma no fim do ano."],
+ ["Ago–Set","<b>Ocyan</b>, <b>Ultrapar</b> e <b>Comgás</b> (estágio) e <b>Equinor Graduate</b>, que abre para quem se forma no fim do ano."],
  ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
 ];
 
