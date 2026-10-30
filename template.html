@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-10-29";
+const UPDATED = "2026-10-30";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -329,7 +329,7 @@ JOBS.push(
   url:"https://abler.in/v385182?source=riovagas",urlLabel:"Ver vaga"},
  {id:"indovinya",co:"Indovinya (ex-Oxiteno)",t:"Programa de Estágio",seg:"Petroquímica",type:"programa",status:"open",end:"2026-10-30",
   cities:["São Paulo","Mauá","Tremembé","Triunfo"],pay:"não divulgada",gmin:null,gmax:null,
-  note:"Química de derivados de petróleo, com unidade em Mauá, perto de você. A edição 2027 está com inscrições até 30/out (amanhã!). A janela de formatura não foi divulgada — a edição anterior pedia dez/2027 a jun/2028, o que incluía você; confira no anúncio.",
+  note:"Química de derivados de petróleo, com unidade em Mauá, perto de você. A edição 2027 está com inscrições até 30/out — hoje é o último dia. A janela de formatura não foi divulgada — a edição anterior pedia dez/2027 a jun/2028, o que incluía você; confira no anúncio.",
   url:"https://ivlglobaliod.wd1.myworkdayjobs.com/pt-BR/Indovinya/job/Programa-de-Estgio-2027_JR101430",urlLabel:"Inscrever-se"},
  {id:"unipar",co:"Unipar",t:"Programa de Estágio",seg:"Química industrial",type:"programa",status:"soon",end:null,expect:"nov/2026",
   cities:["Cubatão"],pay:"compatível com o mercado",gmin:null,gmax:null,
@@ -370,18 +370,22 @@ JOBS.push(
  {id:"prio",co:"PRIO",t:"Trainee de Engenharia (offshore)",seg:"Integrada / E&P",type:"trainee",status:"closed",end:"2026-05-11",
   cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
   note:"Pede pelo menos 2 anos de formado e 2 de experiência na indústria — mostra o tipo de vaga que fica ao seu alcance por volta de 2030.",
-  url:"https://sejatrainee.com.br/trainee-prio-vagas-abertas/",urlLabel:"Ver detalhes"}
+  url:"https://sejatrainee.com.br/trainee-prio-vagas-abertas/",urlLabel:"Ver detalhes"},
+ {id:"prioE",co:"PRIO",t:"Programa de Estágio 2027",seg:"Integrada / E&P",type:"programa",status:"closed",end:null,
+  cities:["Rio de Janeiro"],pay:"R$ 2.500 + benefício flexível R$ 1.600",gmin:"2027-12",gmax:null,
+  note:"Maior petroleira independente do país, presencial em Botafogo (RJ). Aceitava formatura a partir de dez/2027 (exatamente a sua), mas as inscrições rodaram de agosto a outubro e em 30/out o portal já não tinha vagas. Anote para agosto de 2027 — a próxima edição deve pedir formatura mais tardia.",
+  url:"https://programadeestagioprio.gupy.io/",urlLabel:"Portal do programa"}
 );
 const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
 JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Indovinya</b> até 30/out, <b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Agora","<b>Indovinya</b> e <b>Braskem</b> fecham hoje (30/out), <b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
  ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho."],
- ["Ago–Out","<b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b> e <b>Indovinya</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
+ ["Ago–Out","<b>PRIO</b>, <b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b> e <b>Indovinya</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
  ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
 ];
 
