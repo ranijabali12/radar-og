@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-10-30";
+const UPDATED = "2026-10-31";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -243,10 +243,10 @@ const C = {
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
    gmin/gmax: janela de formatura exigida (AAAA-MM). req:"formado" = só para quem já se formou. */
 const JOBS = [
- {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-10-30",
+ {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-11-06",
   cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo","Paulínia","Cubatão","Campinas"],pay:"R$ 2.200 a R$ 2.800",
   gmin:"2028-06",gmax:"2029-12",
-  note:"120 vagas em fábricas e escritórios, sem exigir experiência. Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Depois da inscrição vem o teste SVA (2 a 10/nov).",
+  note:"120 vagas em fábricas e escritórios, sem exigir experiência; inscrições prorrogadas até 06/nov. Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Confira no portal se a data do teste SVA também mudou.",
   url:"https://clickpetroleoegas.com.br/braskem-abre-120-vagas-em-5-estados-com-bolsas-de-ate-r-28-mil-sem-exigir-experiencia-e-com-postos-em-fabricas-e-escritorios-asaf04",urlLabel:"Ver detalhes e inscrição"},
  {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-06",
   cities:["São Paulo","Piracicaba","Paulínia"],pay:"R$ 3.300",gmin:"2027-12",gmax:"2028-12",
@@ -327,10 +327,10 @@ JOBS.push(
   cities:["Rio de Janeiro"],pay:"benefícios + auxílio idioma",gmin:null,gmax:null,
   note:"Lista Eng. Petróleo, Produção e Mecânica (Química não aparece). Publicada em agosto — vale tentar se ainda estiver no ar, já que suprimentos aceita perfis variados.",
   url:"https://abler.in/v385182?source=riovagas",urlLabel:"Ver vaga"},
- {id:"indovinya",co:"Indovinya (ex-Oxiteno)",t:"Programa de Estágio",seg:"Petroquímica",type:"programa",status:"open",end:"2026-10-30",
+ {id:"indovinya",co:"Indovinya (ex-Oxiteno)",t:"Programa de Estágio",seg:"Petroquímica",type:"programa",status:"closed",end:"2026-10-30",
   cities:["São Paulo","Mauá","Tremembé","Triunfo"],pay:"não divulgada",gmin:null,gmax:null,
-  note:"Química de derivados de petróleo, com unidade em Mauá, perto de você. A edição 2027 está com inscrições até 30/out — hoje é o último dia. A janela de formatura não foi divulgada — a edição anterior pedia dez/2027 a jun/2028, o que incluía você; confira no anúncio.",
-  url:"https://ivlglobaliod.wd1.myworkdayjobs.com/pt-BR/Indovinya/job/Programa-de-Estgio-2027_JR101430",urlLabel:"Inscrever-se"},
+  note:"Química de derivados de petróleo, com unidade em Mauá, perto de você. A edição 2027 encerrou as inscrições em 30/out e não encontrei prorrogação. A edição anterior pedia formatura entre dez/2027 e jun/2028; anote para o ciclo de agosto–outubro de 2027.",
+  url:"https://ivlglobaliod.wd1.myworkdayjobs.com/pt-BR/Indovinya/job/Programa-de-Estgio-2027_JR101430",urlLabel:"Portal (encerrado)"},
  {id:"unipar",co:"Unipar",t:"Programa de Estágio",seg:"Química industrial",type:"programa",status:"soon",end:null,expect:"nov/2026",
   cities:["Cubatão"],pay:"compatível com o mercado",gmin:null,gmax:null,
   note:"Cloro-soda e PVC no polo de Cubatão, híbrido. O edital do ano passado saiu no começo de novembro e não fixava formatura.",
@@ -381,7 +381,7 @@ JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Indovinya</b> e <b>Braskem</b> fecham hoje (30/out), <b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Agora","<b>Braskem</b> (prorrogado) e <b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
  ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho."],
