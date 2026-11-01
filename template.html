@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-10-31";
+const UPDATED = "2026-11-01";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -237,7 +237,8 @@ const C = {
   "Vitória":["ES",-20.32,-40.34], "Camaçari":["BA",-12.70,-38.32], "Maceió":["AL",-9.67,-35.74],
   "Triunfo":["RS",-29.94,-51.72], "Curitiba":["PR",-25.43,-49.27], "Betim":["MG",-19.97,-44.20],
   "Ipojuca":["PE",-8.40,-35.06], "Cubatão":["SP",-23.89,-46.42], "Mauá":["SP",-23.67,-46.46],
-  "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88]
+  "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88],
+  "Salvador":["BA",-12.97,-38.50]
 };
 
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
@@ -361,7 +362,7 @@ JOBS.push(
   url:"https://cenarioenergia.com.br/2025/12/12/engie-brasil-e-tag-abrem-inscricoes-para-programa-de-estagio-2026-com-mais-de-50-vagas",urlLabel:"Último edital"},
  {id:"sbm",co:"SBM Offshore",t:"Programa de Estágio",seg:"Offshore / FPSO",type:"programa",status:"soon",end:null,expect:"set–nov (verifique)",
   cities:["Rio de Janeiro","Santos"],pay:"compatível com o mercado",gmin:null,gmax:null,
-  note:"Uma das maiores donas de FPSOs do mundo, com escritório em Santos. A edição 2025.2 ficou aberta até 1º/nov/2025, híbrida, e pedia formatura em dez/2027 — exatamente a sua. Não achei edição em 2026 ainda; confira o portal de carreiras.",
+  note:"Uma das maiores donas de FPSOs do mundo, com escritório em Santos. A edição 2025.2 ficou aberta até 1º/nov/2025, híbrida, e pedia formatura em dez/2027 — exatamente a sua. Em 1º/nov/2026 a página de estágios da SBM só listava vagas na Europa, nenhuma no Brasil; confira o portal de carreiras.",
   url:"https://otrainee.com.br/2025/09/11/programa-estagio-sbm-offshore-2025-2/",urlLabel:"Último edital"},
  {id:"vibraT",co:"Vibra Energia",t:"Programa de Trainee 2027",seg:"Distribuição",type:"trainee",status:"closed",end:null,
   cities:["Rio de Janeiro"],pay:"R$ 8.500",gmin:"2023-12",gmax:"2026-12",
@@ -374,7 +375,11 @@ JOBS.push(
  {id:"prioE",co:"PRIO",t:"Programa de Estágio 2027",seg:"Integrada / E&P",type:"programa",status:"closed",end:null,
   cities:["Rio de Janeiro"],pay:"R$ 2.500 + benefício flexível R$ 1.600",gmin:"2027-12",gmax:null,
   note:"Maior petroleira independente do país, presencial em Botafogo (RJ). Aceitava formatura a partir de dez/2027 (exatamente a sua), mas as inscrições rodaram de agosto a outubro e em 30/out o portal já não tinha vagas. Anote para agosto de 2027 — a próxima edição deve pedir formatura mais tardia.",
-  url:"https://programadeestagioprio.gupy.io/",urlLabel:"Portal do programa"}
+  url:"https://programadeestagioprio.gupy.io/",urlLabel:"Portal do programa"},
+ {id:"petrorec",co:"PetroReconcavo",t:"Programa de Estágio",seg:"Integrada / E&P",type:"programa",status:"soon",end:null,expect:"mai/2027 (verifique)",
+  cities:["Salvador"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Petroleira independente de campos terrestres na Bahia. A edição 2026 ficou aberta só até 27/mai, a partir do 3º semestre e sem janela de formatura, com trilha de Data & Analytics — encaixa no seu perfil de dados. Vagas em Salvador; confira bolsa e requisitos quando abrir.",
+  url:"https://petroreconcavocarreiras.gupy.io/",urlLabel:"Portal de carreiras"}
 );
 const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
 JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
@@ -384,7 +389,7 @@ const TIMELINE = [
  ["Agora","<b>Braskem</b> (prorrogado) e <b>Raízen Acelerar</b> até 06/nov e <b>Raízen Talentos</b> até 27/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
  ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
- ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho."],
+ ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador)."],
  ["Ago–Out","<b>PRIO</b>, <b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b> e <b>Indovinya</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
  ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
 ];
