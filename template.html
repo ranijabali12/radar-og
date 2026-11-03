@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-02";
+const UPDATED = "2026-11-03";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -238,16 +238,16 @@ const C = {
   "Triunfo":["RS",-29.94,-51.72], "Curitiba":["PR",-25.43,-49.27], "Betim":["MG",-19.97,-44.20],
   "Ipojuca":["PE",-8.40,-35.06], "Cubatão":["SP",-23.89,-46.42], "Mauá":["SP",-23.67,-46.46],
   "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88],
-  "Salvador":["BA",-12.97,-38.50]
+  "Salvador":["BA",-12.97,-38.50], "Santo André":["SP",-23.66,-46.53]
 };
 
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
    gmin/gmax: janela de formatura exigida (AAAA-MM). req:"formado" = só para quem já se formou. */
 const JOBS = [
  {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-11-06",
-  cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo","Paulínia","Cubatão","Campinas"],pay:"R$ 2.200 a R$ 2.800",
+  cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo","Santo André","Paulínia","Cubatão","Campinas"],pay:"R$ 2.200 a R$ 2.800",
   gmin:"2028-06",gmax:"2029-12",
-  note:"120 vagas em fábricas e escritórios, sem exigir experiência; inscrições prorrogadas até 06/nov. Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Confira no portal se a data do teste SVA também mudou.",
+  note:"120 vagas em fábricas e escritórios (23 delas em Santo André, no ABC), sem exigir experiência; inscrições prorrogadas até 06/nov. Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Confira no portal se a data do teste SVA também mudou.",
   url:"https://clickpetroleoegas.com.br/braskem-abre-120-vagas-em-5-estados-com-bolsas-de-ate-r-28-mil-sem-exigir-experiencia-e-com-postos-em-fabricas-e-escritorios-asaf04",urlLabel:"Ver detalhes e inscrição"},
  {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-06",
   cities:["São Paulo","Piracicaba","Paulínia"],pay:"R$ 3.300",gmin:"2027-12",gmax:"2028-12",
@@ -263,8 +263,8 @@ const JOBS = [
   url:"https://careers.slb.com/early-careers/internships",urlLabel:"Portal de estágios"},
  {id:"anp",co:"ANP",t:"Estágio em Eng. Petróleo, Produção ou Química",seg:"Regulador",status:"cont",end:null,
   cities:["Rio de Janeiro"],pay:"R$ 1.508",gmin:null,gmax:null,
-  note:"Vagas recorrentes da agência reguladora via Estagiando, em modelo híbrido; também surgem vagas remotas. A listagem que achei é de abril — confira se ainda está ativa.",
-  url:"https://www.infojobs.com.br/vagas-de-estagiario-engenharia-petroleo-em-rio-janeiro,-rj.aspx",urlLabel:"Ver anúncios"},
+  note:"Vagas recorrentes da agência reguladora, até 2 anos de estágio e 6h por dia. A página oficial não mostra prazos: as vagas do momento ficam num quadro (Power BI) e há formulário de banco de talentos — confira lá se há posição para Química.",
+  url:"https://www.gov.br/anp/pt-br/acesso-a-informacao/oportunidades-de-trabalho/programa-de-estagio-da-anp",urlLabel:"Página oficial"},
  {id:"subsea7",co:"Subsea7",t:"Programa de Estágio",seg:"Offshore / subsea",status:"soon",end:null,expect:"nov–dez/2026",
   cities:["Rio de Janeiro","Niterói"],pay:"bolsa + 13º e curso de inglês",gmin:"2027-09",gmax:"2028-09",
   note:"O último ciclo fechou em 18/08/2026 e aceitava exatamente a sua formatura. A empresa já abriu turma em dezembro em anos anteriores — fique de olho no fim do ano.",
@@ -275,7 +275,7 @@ const JOBS = [
   url:"https://www.vibraenergia.com.br/sites/default/files/2025-11/Est%C3%A3o-abertas-as-inscri%C3%A7%C3%B5es-para-programa-de-est%C3%A1gio-da-Vibra-com-vagas-para-n%C3%ADveis-t%C3%A9cnico-e-superior.pdf",urlLabel:"Último edital"},
  {id:"comgas",co:"Comgás (Compass)",t:"Programa de Estágio",seg:"Gás natural",status:"soon",end:null,expect:"sem vagas agora",
   cities:["São Paulo","Campinas"],pay:"R$ 2.000",gmin:null,gmax:"2027-12",
-  note:"Maior distribuidora de gás canalizado do país, em SP. Em 29/out o portal da Gupy estava sem vagas abertas, mas aceita cadastro no banco de talentos e pede formatura até dez/2027 — você entra no limite. Cadastre-se para ser chamado quando abrir.",
+  note:"Maior distribuidora de gás canalizado do país, em SP. Em 03/nov o portal da Gupy seguia sem vagas abertas, mas aceita cadastro no banco de talentos e pede formatura até dez/2027 — você entra no limite. Cadastre-se para ser chamado quando abrir.",
   url:"https://estagiocomgas.gupy.io/",urlLabel:"Portal (banco de talentos)"},
  {id:"petrobras",co:"Petrobras",t:"Programa de Estágio (cadastro reserva)",seg:"Integrada / E&P",status:"soon",end:null,expect:"1º sem./2027",
   cities:["Rio de Janeiro","Macaé","Duque de Caxias","Itaboraí","Santos","Betim","Ipojuca"],pay:"R$ 1.825",gmin:null,gmax:null,
@@ -362,7 +362,7 @@ JOBS.push(
   url:"https://cenarioenergia.com.br/2025/12/12/engie-brasil-e-tag-abrem-inscricoes-para-programa-de-estagio-2026-com-mais-de-50-vagas",urlLabel:"Último edital"},
  {id:"sbm",co:"SBM Offshore",t:"Programa de Estágio",seg:"Offshore / FPSO",type:"programa",status:"soon",end:null,expect:"set–nov (verifique)",
   cities:["Rio de Janeiro","Santos"],pay:"compatível com o mercado",gmin:null,gmax:null,
-  note:"Uma das maiores donas de FPSOs do mundo, com escritório em Santos. A edição 2025.2 ficou aberta até 1º/nov/2025, híbrida, e pedia formatura em dez/2027 — exatamente a sua. Em 1º/nov/2026 a página de estágios da SBM só listava vagas na Europa, nenhuma no Brasil; confira o portal de carreiras.",
+  note:"Uma das maiores donas de FPSOs do mundo, com escritório em Santos. A edição 2025.2 ficou aberta até 1º/nov/2025, híbrida, e pedia formatura em dez/2027 — exatamente a sua. Em 03/nov/2026 a página de estágios da SBM ainda só listava vagas na Europa, nenhuma no Brasil; confira o portal de carreiras.",
   url:"https://otrainee.com.br/2025/09/11/programa-estagio-sbm-offshore-2025-2/",urlLabel:"Último edital"},
  {id:"vibraT",co:"Vibra Energia",t:"Programa de Trainee 2027",seg:"Distribuição",type:"trainee",status:"closed",end:null,
   cities:["Rio de Janeiro"],pay:"R$ 8.500",gmin:"2023-12",gmax:"2026-12",
@@ -379,7 +379,11 @@ JOBS.push(
  {id:"petrorec",co:"PetroReconcavo",t:"Programa de Estágio",seg:"Integrada / E&P",type:"programa",status:"soon",end:null,expect:"mai/2027 (verifique)",
   cities:["Salvador"],pay:"não divulgada",gmin:null,gmax:null,
   note:"Petroleira independente de campos terrestres na Bahia. A edição 2026 ficou aberta só até 27/mai, a partir do 3º semestre e sem janela de formatura, com trilha de Data & Analytics — encaixa no seu perfil de dados. Vagas em Salvador; confira bolsa e requisitos quando abrir.",
-  url:"https://petroreconcavocarreiras.gupy.io/",urlLabel:"Portal de carreiras"}
+  url:"https://petroreconcavocarreiras.gupy.io/",urlLabel:"Portal de carreiras"},
+ {id:"ppsa",co:"PPSA (Pré-Sal Petróleo)",t:"Programa de Estágio via CIEE",seg:"Regulador",type:"avulsa",status:"check",end:null,
+  cities:["Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Estatal que gere os contratos de partilha do pré-sal — visão de negócio de E&P que combina com análise de dados. A página do programa cita 14 vagas pelo CIEE, mas não traz prazos nem cursos e foi atualizada em janeiro; confira no portal do CIEE se ainda há posições.",
+  url:"https://www.presalpetroleo.gov.br/programa-de-estagio/",urlLabel:"Página do programa"}
 );
 const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
 JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
