@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-06";
+const UPDATED = "2026-11-07";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -239,20 +239,21 @@ const C = {
   "Ipojuca":["PE",-8.40,-35.06], "Cubatão":["SP",-23.89,-46.42], "Mauá":["SP",-23.67,-46.46],
   "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88],
   "Salvador":["BA",-12.97,-38.50], "Santo André":["SP",-23.66,-46.53],
-  "São Gonçalo":["RJ",-22.83,-43.05], "São João da Barra":["RJ",-21.64,-41.05]
+  "São Gonçalo":["RJ",-22.83,-43.05], "São João da Barra":["RJ",-21.64,-41.05],
+  "Rio das Ostras":["RJ",-22.53,-41.95]
 };
 
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
    gmin/gmax: janela de formatura exigida (AAAA-MM). req:"formado" = só para quem já se formou. */
 const JOBS = [
- {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"open",end:"2026-11-06",
+ {id:"braskem",co:"Braskem",t:"Programa de Estágio 2027",seg:"Petroquímica",status:"closed",end:"2026-11-06",
   cities:["Camaçari","Maceió","Duque de Caxias","Triunfo","São Paulo","Santo André","Paulínia","Cubatão","Campinas"],pay:"R$ 2.200 a R$ 2.800",
   gmin:"2028-06",gmax:"2029-12",
-  note:"120 vagas em fábricas e escritórios (23 delas em Santo André, no ABC), sem exigir experiência; inscrições prorrogadas até 06/nov (hoje é o último dia). Atenção: o edital pede formatura entre jun/2028 e dez/2029, então dez/2027 fica fora — só vale se sua formatura atrasar. Confira no portal se a data do teste SVA também mudou.",
+  note:"120 vagas em fábricas e escritórios (23 delas em Santo André, no ABC), sem exigir experiência; inscrições encerradas em 06/nov, após prorrogação. O edital pedia formatura entre jun/2028 e dez/2029, então dez/2027 ficava fora. Anote o calendário (set–nov) para referência.",
   url:"https://clickpetroleoegas.com.br/braskem-abre-120-vagas-em-5-estados-com-bolsas-de-ate-r-28-mil-sem-exigir-experiencia-e-com-postos-em-fabricas-e-escritorios-asaf04",urlLabel:"Ver detalhes e inscrição"},
- {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"open",end:"2026-11-06",
+ {id:"raizen",co:"Raízen",t:"Estágio Acelerar 2027 · combustíveis",seg:"Distribuição",status:"closed",end:"2026-11-06",
   cities:["São Paulo","Piracicaba","Paulínia"],pay:"R$ 3.300",gmin:"2027-12",gmax:"2028-12",
-  note:"Negócio de combustíveis (licenciada Shell). Pede inglês avançado e participação em iniciativa estudantil (empresa júnior, liga, intercâmbio ou CA). Início entre dez/2026 e jan/2027 — dá para estar em SP. Inscrições terminam hoje, 06/nov; não encontrei prorrogação.",
+  note:"Negócio de combustíveis (licenciada Shell). Pede inglês avançado e participação em iniciativa estudantil (empresa júnior, liga, intercâmbio ou CA). Inscrições encerradas em 06/nov, sem prorrogação encontrada. Ciclo costuma abrir em set–out; para dez/2027 de formatura, a Raízen Talentos (até 27/nov) segue aberta.",
   url:"https://www.raizen.com/programas-de-talentos/estagio-acelerar",urlLabel:"Inscrever-se"},
  {id:"halli",co:"Halliburton",t:"Estágio Brasil · candidatura contínua",seg:"Serviços de petróleo",status:"cont",end:null,
   cities:["Macaé","Rio de Janeiro","Vitória","Santos"],pay:"não divulgada",gmin:null,gmax:null,gwin:[6,24],
@@ -388,17 +389,25 @@ JOBS.push(
  {id:"ppsa",co:"PPSA (Pré-Sal Petróleo)",t:"Programa de Estágio via CIEE",seg:"Regulador",type:"avulsa",status:"check",end:null,
   cities:["Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
   note:"Estatal que gere os contratos de partilha do pré-sal — visão de negócio de E&P que combina com análise de dados. A página do programa cita 14 vagas pelo CIEE, mas não traz prazos nem cursos e foi atualizada em janeiro; confira no portal do CIEE se ainda há posições.",
-  url:"https://www.presalpetroleo.gov.br/programa-de-estagio/",urlLabel:"Página do programa"}
+  url:"https://www.presalpetroleo.gov.br/programa-de-estagio/",urlLabel:"Página do programa"},
+ {id:"constellation",co:"Constellation",t:"Estágios em Perfuração e Planejamento de Materiais",seg:"Offshore / perfuração",type:"avulsa",status:"open",end:null,seen:"2026-11-06",
+  cities:["Rio das Ostras","Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Empresa brasileira de sondas de perfuração no pré-sal. Em 06/nov o portal tinha estágios em Engenharia de Perfuração e planejamento de materiais em Rio das Ostras, sem cursos, prazo nem bolsa divulgados — confira se Eng. Química entra. No Rio há ainda estágio de Eng. Naval (só esse curso, até 12/nov) e um de Proteção de Dados que pede formatura a partir do 2º sem./2028.",
+  url:"https://theconstellation.gupy.io/",urlLabel:"Portal de vagas"},
+ {id:"foresea",co:"Foresea",t:"Programa de Estágio",seg:"Offshore / perfuração",type:"programa",status:"closed",end:"2026-07-06",
+  cities:["Rio de Janeiro","Macaé"],pay:"não divulgada",gmin:null,gmax:null,
+  note:"Perfuração offshore (sondas no pré-sal). A edição de 2026 teve 16 vagas, aceitava Engenharia sem detalhar quais e fechou em 06/jul. Referência de calendário: fique de olho em junho de 2027.",
+  url:"https://braziloffshore.com/artigo/foresea-abre-programa-de-estagio-com-16-vagas-para-offshore-no-rio-e-macae",urlLabel:"Último edital"}
 );
 const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
 JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Braskem</b> e <b>Raízen Acelerar</b> no último dia (06/nov), <b>Raízen Talentos</b> até 27/nov e <b>Bram Offshore</b> até 30/nov. <span>Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Agora","<b>Raízen Talentos</b> até 27/nov e <b>Bram Offshore</b> até 30/nov; estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
  ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
- ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador)."],
+ ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador), <b>Foresea</b> (jun–jul)."],
  ["Ago–Out","<b>PRIO</b>, <b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b> e <b>Indovinya</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
  ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
 ];
