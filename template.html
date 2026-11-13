@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-12";
+const UPDATED = "2026-11-13";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -271,10 +271,10 @@ const JOBS = [
   cities:["Rio de Janeiro","Niterói"],pay:"bolsa + 13º e curso de inglês",gmin:"2027-09",gmax:"2028-09",
   note:"O último ciclo fechou em 18/08/2026 e aceitava exatamente a sua formatura. A empresa já abriu turma em dezembro em anos anteriores — fique de olho no fim do ano.",
   url:"https://www.estagiotrainee.com/post/programa-estagio-subsea7-2026",urlLabel:"Último edital"},
- {id:"vibra",co:"Vibra Energia",t:"Ativagente Estag",seg:"Distribuição",status:"soon",end:null,expect:"nov–dez/2026",
-  cities:["Rio de Janeiro"],pay:"compatível com o mercado",gmin:null,gmax:null,
-  note:"Abre dois ciclos por ano: maio–junho e novembro–dezembro (em 2025 foi até 5/dez). Nível superior com 6h por dia; vagas no escritório do Rio e em bases pelo país.",
-  url:"https://www.vibraenergia.com.br/sites/default/files/2025-11/Est%C3%A3o-abertas-as-inscri%C3%A7%C3%B5es-para-programa-de-est%C3%A1gio-da-Vibra-com-vagas-para-n%C3%ADveis-t%C3%A9cnico-e-superior.pdf",urlLabel:"Último edital"},
+ {id:"vibra",co:"Vibra Energia",t:"Programa de Estágio 2027",seg:"Distribuição",status:"open",end:"2026-12-10",
+  cities:["Rio de Janeiro","São Paulo"],pay:"R$ 1.930,70",gmin:"2028-07",gmax:"2029-06",
+  note:"Novo ciclo aberto, com mais de 40 vagas, 6h por dia e início em fevereiro de 2027; nível superior no Rio e em São Paulo, sem exigir inglês. Pede formatura entre o 2º sem./2028 e o 1º sem./2029, então dez/2027 fica fora. Prazo de 10/dez visto em portal de vagas — confirme na página oficial de inscrição.",
+  url:"https://www.estagiotrainee.com/post/programa-estagio-vibra-2027",urlLabel:"Ver detalhes e inscrição"},
  {id:"comgas",co:"Comgás (Compass)",t:"Programa de Estágio",seg:"Gás natural",status:"soon",end:null,expect:"sem vagas agora",
   cities:["São Paulo","Campinas"],pay:"R$ 2.000",gmin:null,gmax:"2027-12",
   note:"Maior distribuidora de gás canalizado do país, em SP. Em 11/nov ainda não achei edição nova anunciada, mas aceita cadastro no banco de talentos e pede formatura até dez/2027 — você entra no limite. Cadastre-se para ser chamado quando abrir.",
@@ -374,10 +374,6 @@ JOBS.push(
   cities:["Rio de Janeiro"],pay:"R$ 8.500",gmin:"2023-12",gmax:"2026-12",
   note:"Trainee de 18 meses no Rio, com trilha em Inteligência de Mercado, Pricing e Dados — áreas próximas do seu estágio atual. Pedia formatura até dez/2026 e abriu em outubro; a edição de 2028 deve aceitar a sua turma.",
   url:"https://traineevibra.ves.jobs/",urlLabel:"Página do programa"},
- {id:"prio",co:"PRIO",t:"Trainee de Engenharia (offshore)",seg:"Integrada / E&P",type:"trainee",status:"closed",end:"2026-05-11",
-  cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
-  note:"Pede pelo menos 2 anos de formado e 2 de experiência na indústria — mostra o tipo de vaga que fica ao seu alcance por volta de 2030.",
-  url:"https://sejatrainee.com.br/trainee-prio-vagas-abertas/",urlLabel:"Ver detalhes"},
  {id:"prioE",co:"PRIO",t:"Programa de Estágio 2027",seg:"Integrada / E&P",type:"programa",status:"closed",end:null,
   cities:["Rio de Janeiro"],pay:"R$ 2.500 + benefício flexível R$ 1.600",gmin:"2027-12",gmax:null,
   note:"Maior petroleira independente do país, presencial em Botafogo (RJ). Aceitava formatura a partir de dez/2027 (exatamente a sua), mas as inscrições rodaram de agosto a outubro e em 30/out o portal já não tinha vagas. Anote para agosto de 2027 — a próxima edição deve pedir formatura mais tardia.",
@@ -392,7 +388,7 @@ JOBS.push(
   url:"https://www.presalpetroleo.gov.br/programa-de-estagio/",urlLabel:"Página do programa"},
  {id:"constellation",co:"Constellation",t:"Estágios em Perfuração e Planejamento de Materiais",seg:"Offshore / perfuração",type:"avulsa",status:"open",end:null,seen:"2026-11-06",
   cities:["Rio das Ostras","Rio de Janeiro"],pay:"não divulgada",gmin:null,gmax:null,
-  note:"Empresa brasileira de sondas de perfuração no pré-sal. Em 06/nov o portal tinha estágios em Engenharia de Perfuração e planejamento de materiais em Rio das Ostras, sem cursos, prazo nem bolsa divulgados — confira se Eng. Química entra. No Rio há ainda estágio de Eng. Naval (só esse curso, com prazo até 12/nov) e um de Proteção de Dados que pede formatura a partir do 2º sem./2028.",
+  note:"Empresa brasileira de sondas de perfuração no pré-sal. Em 06/nov o portal tinha estágios em Engenharia de Perfuração e planejamento de materiais em Rio das Ostras, sem cursos, prazo nem bolsa divulgados — confira se Eng. Química entra. No Rio havia ainda estágio de Eng. Naval (só esse curso, prazo encerrado em 12/nov) e um de Proteção de Dados que pede formatura a partir do 2º sem./2028.",
   url:"https://theconstellation.gupy.io/",urlLabel:"Portal de vagas"},
  {id:"foresea",co:"Foresea",t:"Programa de Estágio",seg:"Offshore / perfuração",type:"programa",status:"closed",end:"2026-07-06",
   cities:["Rio de Janeiro","Macaé"],pay:"não divulgada",gmin:null,gmax:null,
@@ -416,8 +412,8 @@ JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Raízen Talentos</b> até 27/nov e <b>Bram Offshore</b> até 30/nov; estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
- ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Vibra</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
+ ["Agora","<b>Raízen Talentos</b> até 27/nov, <b>Bram Offshore</b> até 30/nov e <b>Vibra</b> até 10/dez (pede formatura 2028–29); estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
  ["Fev–Mar","<b>Dow</b>, <b>Ipiranga Talent</b> e possivelmente <b>Supergasbras</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador), <b>Foresea</b> (jun–jul)."],
  ["Ago–Out","<b>PRIO</b>, <b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b>, <b>Indovinya</b>, <b>Copa Energia</b> e <b>Ultracargo</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
