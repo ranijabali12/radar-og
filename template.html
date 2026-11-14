@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-13";
+const UPDATED = "2026-11-14";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -240,7 +240,11 @@ const C = {
   "Tremembé":["SP",-22.96,-45.55], "Jundiaí":["SP",-23.19,-46.88],
   "Salvador":["BA",-12.97,-38.50], "Santo André":["SP",-23.66,-46.53],
   "São Gonçalo":["RJ",-22.83,-43.05], "São João da Barra":["RJ",-21.64,-41.05],
-  "Rio das Ostras":["RJ",-22.53,-41.95]
+  "Rio das Ostras":["RJ",-22.53,-41.95],
+  "Ribeirão Preto":["SP",-21.18,-47.81], "São José dos Campos":["SP",-23.18,-45.89],
+  "Uberlândia":["MG",-18.92,-48.28], "Serra":["ES",-20.13,-40.31],
+  "Araucária":["PR",-25.59,-49.41], "Londrina":["PR",-23.31,-51.16], "Canoas":["RS",-29.92,-51.18],
+  "Recife":["PE",-8.05,-34.88], "Caucaia":["CE",-3.74,-38.65], "Cuiabá":["MT",-15.60,-56.10]
 };
 
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
@@ -394,10 +398,10 @@ JOBS.push(
   cities:["Rio de Janeiro","Macaé"],pay:"não divulgada",gmin:null,gmax:null,
   note:"Perfuração offshore (sondas no pré-sal). A edição de 2026 teve 16 vagas, aceitava Engenharia sem detalhar quais e fechou em 06/jul. Referência de calendário: fique de olho em junho de 2027.",
   url:"https://braziloffshore.com/artigo/foresea-abre-programa-de-estagio-com-16-vagas-para-offshore-no-rio-e-macae",urlLabel:"Último edital"},
- {id:"supergasbras",co:"Supergasbras",t:"Programa de Estágio",seg:"GLP",type:"programa",status:"soon",end:null,expect:"1º sem./2027 (verifique)",
-  cities:["São Paulo","Mauá","Paulínia","Rio de Janeiro","Duque de Caxias","Salvador","Ipojuca","Betim"],pay:"compatível com o mercado",gmin:"2027-07",gmax:"2027-12",
-  note:"Distribuidora de GLP (grupo SHV) com bases pelo país, inclusive Mauá e Paulínia. A edição 2026, divulgada em fevereiro e já encerrada, listava Eng. Química e pedia formatura entre jul e dez/2027 — exatamente a sua. A próxima pode pedir formatura mais tardia; confira quando abrir.",
-  url:"https://www.estagiotrainee.com/post/programa-estagio-supergasbras-2026",urlLabel:"Último edital"},
+ {id:"supergasbras",co:"Supergasbras",t:"Programa de Estágio 2027",seg:"GLP",type:"programa",status:"open",end:"2026-12-31",
+  cities:["Mauá","Paulínia","Ribeirão Preto","São José dos Campos","Rio de Janeiro","Duque de Caxias","Betim","Uberlândia","Serra","Araucária","Londrina","Canoas","Ipojuca","Recife","Caucaia","Cuiabá"],pay:"não divulgada",gmin:"2027-12",gmax:"2028-12",
+  note:"Novo ciclo da distribuidora de GLP (grupo SHV), divulgado em 13/nov, em 16 cidades — Mauá e Paulínia são as mais perto de você. Pede formatura entre dez/2027 e dez/2028 (exatamente a sua), 6h por dia e não exige inglês. Lista \"Engenharias\" sem nomear Química e não divulga a bolsa; prazo de 31/dez visto em portal de vagas — confirme no site oficial.",
+  url:"https://supergasbras.across.jobs/",urlLabel:"Inscrever-se"},
  {id:"copa",co:"Copa Energia",t:"Programa de Estágio",seg:"GLP",type:"programa",status:"closed",end:null,
   cities:["São Paulo"],pay:"não divulgada",gmin:null,gmax:null,
   note:"Distribuidora de GLP (Copagaz + Liquigás), escritório híbrido no Morumbi (SP), com área de Operações/Engenharia e Inteligência de Mercado. O portal indica inscrições de 04/10 a 05/11 e hoje não mostra vagas; a edição anterior pedia formatura em jul/2028. Referência para out–nov/2027 — confira a janela de formatura.",
@@ -405,16 +409,20 @@ JOBS.push(
  {id:"ultracargo",co:"Ultracargo",t:"Programa de Estágio",seg:"Logística de petróleo",type:"programa",status:"check",end:null,
   cities:["São Paulo","Santos"],pay:"R$ 2.220 (edição 2026)",gmin:null,gmax:null,
   note:"Maior operadora de terminais de granéis líquidos (combustíveis e químicos) do país, do grupo Ultrapar, com vagas na sede em SP e no terminal de Santos. A edição anterior abriu em set/2025 (até 20/out), incluía Engenharia e pedia formatura em 2026 ou 2027. Em 11/nov/2026 não achei edição nova divulgada — confira o portal de vagas e as redes da empresa.",
-  url:"https://www.ultracargo.com.br/noticia/programa-de-estagio-ultracargo-oportunidades-abertas-em-sao-paulo-e-santos/",urlLabel:"Último edital"}
+  url:"https://www.ultracargo.com.br/noticia/programa-de-estagio-ultracargo-oportunidades-abertas-em-sao-paulo-e-santos/",urlLabel:"Último edital"},
+ {id:"eneva",co:"Eneva",t:"Programa de Estágio 2027",seg:"Gás natural",type:"programa",status:"open",end:null,
+  cities:["Rio de Janeiro"],pay:"compatível com o mercado",gmin:"2028-07",gmax:null,
+  note:"Maior operadora privada de gás natural em terra do país (campos e térmicas). Edição divulgada em 13/nov, presencial em Botafogo (RJ), qualquer curso e sem inglês. Pede formatura a partir do 2º sem./2028, então dez/2027 fica fora; o prazo não foi divulgado — confira no link de inscrição.",
+  url:"https://eneva.compleo.com.br/Visualizar/222677",urlLabel:"Ver vaga"}
 );
 const TYPEMAP={halli:"avulsa",slb:"avulsa",anp:"avulsa",eqgrad:"trainee",hdeep:"trainee"};
 JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Raízen Talentos</b> até 27/nov, <b>Bram Offshore</b> até 30/nov e <b>Vibra</b> até 10/dez (pede formatura 2028–29); estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Agora","<b>Raízen Talentos</b> até 27/nov, <b>Bram Offshore</b> até 30/nov, <b>Supergasbras</b> até 31/dez (aceita dez/2027), <b>Vibra</b> até 10/dez e <b>Eneva</b> (ambas pedem formatura 2028+); estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore.</span>"],
- ["Fev–Mar","<b>Dow</b>, <b>Ipiranga Talent</b> e possivelmente <b>Supergasbras</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
+ ["Fev–Mar","<b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador), <b>Foresea</b> (jun–jul)."],
  ["Ago–Out","<b>PRIO</b>, <b>Ocyan</b>, <b>Ultrapar</b>, <b>Comgás</b>, <b>Indovinya</b>, <b>Copa Energia</b> e <b>Ultracargo</b> (estágio), <b>Equinor Graduate</b> e <b>Vibra Trainee</b> — os dois últimos para quem se forma no fim do ano."],
  ["2028","Trainee e programas de entrada (Halliburton DEEP, Vibra Trainee, concurso Petrobras)."]
