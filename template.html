@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-16";
+const UPDATED = "2026-11-17";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -362,6 +362,10 @@ JOBS.push(
   cities:["São Paulo"],pay:"R$ 3.200",gmin:"2027-12",gmax:"2029-12",
   note:"Holding de Ipiranga e Ultragaz, presencial em São Paulo, aceitava formatura entre dez/2027 e dez/2029 e engenharias. Divulgado no fim de setembro e já encerrado — anote o calendário para a próxima edição.",
   url:"https://www.estagiotrainee.com/post/programa-estagio-ultrapar-2027",urlLabel:"Último edital"},
+ {id:"ultratech",co:"Grupo Ultra (Ipiranga, Ultragaz, Ultracargo)",t:"Ultra.tech — estágio em tecnologia e IA",seg:"Distribuição",type:"programa",status:"closed",end:"2026-11-13",
+  cities:["São Paulo"],pay:"R$ 3.200",gmin:null,gmax:null,
+  note:"Estágio voltado a dados e IA com rodízio entre as empresas do grupo, incluindo Ipiranga e Ultragaz — combina com sua experiência em análise de dados. As inscrições fecharam em 13/nov; não confirmei a formatura exigida. Anote para a próxima edição.",
+  url:"https://www.bloomberglinea.com.br/2026/11/09/grupo-ultra-lanca-programa-de-estagio-em-tecnologia-com-experiencia-multinegocios/",urlLabel:"Ver notícia"},
  {id:"transpetro",co:"Transpetro",t:"Concurso público (níveis médio, técnico e superior)",seg:"Logística de petróleo",type:"concurso",status:"closed",end:"2026-09-21",
   cities:["Rio de Janeiro"],pay:"CLT",gmin:null,gmax:null,req:"formado",
   note:"Mais de 4 mil vagas, inscrições prorrogadas até 21/set. Exige diploma na posse, então é referência para depois de formado.",
@@ -428,7 +432,7 @@ JOBS.forEach(j=>{ j.type=j.type||TYPEMAP[j.id]||"programa"; });
 const TLAB={programa:"Programa de estágio",avulsa:"Vaga de estágio",trainee:"Recém-formado",concurso:"Concurso"};
 
 const TIMELINE = [
- ["Agora","<b>Raízen Talentos</b> até 27/nov, <b>Bram Offshore</b> até 30/nov, <b>Supergasbras</b> até 31/dez (aceita dez/2027), <b>Vibra</b> até 10/dez e <b>Eneva</b> (ambas pedem formatura 2028+); estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov. Comgás: cadastre-se no banco de talentos.</span>"],
+ ["Agora","<b>Raízen Talentos</b> até 27/nov, <b>Bram Offshore</b> até 30/nov, <b>Supergasbras</b> até 31/dez (aceita dez/2027), <b>Vibra</b> até 10/dez e <b>Eneva</b> (ambas pedem formatura 2028+); estágios avulsos na <b>Constellation</b>. <span>Braskem e Raízen Acelerar encerraram em 06/nov; Ultra.tech (Grupo Ultra) em 13/nov. Comgás: cadastre-se no banco de talentos.</span>"],
  ["Nov–Dez","<b>Halliburton</b> (corte de dezembro), <b>Subsea7</b>, <b>Unipar</b> e <b>ENGIE/TAG</b> costumam abrir. <span>Fique de olho também na SBM Offshore e no Trainee Offshore da Brava (para formados).</span>"],
  ["Jan–Mar","<b>Brava Acelera</b> (jan–fev, verifique), <b>Dow</b> e <b>Ipiranga Talent</b>. <span>Confira a formatura exigida — pode já pedir 2028.</span>"],
  ["Mai–Jun","<b>Petrobras</b> (janela de ~2 semanas, prova online), <b>Vibra</b> 2º ciclo, <b>Halliburton</b> corte de junho, <b>PetroReconcavo</b> (Salvador), <b>Foresea</b> (jun–jul)."],
