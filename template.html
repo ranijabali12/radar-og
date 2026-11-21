@@ -227,7 +227,7 @@ footer a{color:var(--muted)}
 
 <script>
 const GEO = __GEO__;
-const UPDATED = "2026-11-20";
+const UPDATED = "2026-11-21";
 
 const C = {
   "Rio de Janeiro":["RJ",-22.91,-43.17], "Macaé":["RJ",-22.37,-41.79], "Niterói":["RJ",-22.88,-43.10],
@@ -244,7 +244,7 @@ const C = {
   "Ribeirão Preto":["SP",-21.18,-47.81], "São José dos Campos":["SP",-23.18,-45.89],
   "Uberlândia":["MG",-18.92,-48.28], "Serra":["ES",-20.13,-40.31],
   "Araucária":["PR",-25.59,-49.41], "Londrina":["PR",-23.31,-51.16], "Canoas":["RS",-29.92,-51.18],
-  "Recife":["PE",-8.05,-34.88], "Mossoró":["RN",-5.19,-37.34], "Caucaia":["CE",-3.74,-38.65], "Cuiabá":["MT",-15.60,-56.10], "Suzano":["SP",-23.54,-46.31]
+  "Recife":["PE",-8.05,-34.88], "Mossoró":["RN",-5.19,-37.34], "Caucaia":["CE",-3.74,-38.65], "Cuiabá":["MT",-15.60,-56.10], "Suzano":["SP",-23.54,-46.31], "Viana":["ES",-20.39,-40.50]
 };
 
 /* status: open | cont (fluxo contínuo) | soon (próximo ciclo previsto) | closed
@@ -430,6 +430,10 @@ JOBS.push(
   cities:["Rio de Janeiro","Mossoró"],pay:"não divulgada",gmin:null,gmax:null,
   note:"O primeiro programa de estágio da empresa teve inscrições até 09/fev/2025. Não confirmei se houve edição em 2026 nem qual formatura será exigida — confira bolsa, cidades e requisitos quando abrir.",
   url:"https://cenarioenergia.com.br/2025/01/17/brava-energia-lanca-programa-de-estagio-brava-acelera-e-abre-inscricoes-ate-09-02/",urlLabel:"Último edital"},
+ {id:"technipT",co:"TechnipFMC",t:"Programa de Trainee (Engenharia)",seg:"Offshore / subsea",type:"trainee",status:"closed",end:null,
+  cities:["Rio de Janeiro","Macaé","Viana"],pay:"compatível com o mercado",gmin:null,gmax:null,req:"formado",
+  note:"Fabricante de equipamentos submarinos (árvores de natal, dutos flexíveis). A edição 2026, divulgada em mai/2026, já encerrou; pedia graduação em Engenharia concluída há até 3 anos, CREA ativo e mobilidade entre RJ, Macaé e Viana (ES). Referência para 2028 — confira se Eng. Química é aceita na próxima edição.",
+  url:"https://www.estagiotrainee.com/post/programa-trainee-technipfmc-2026",urlLabel:"Ver detalhes"},
  {id:"indovinyaT",co:"Indovinya (ex-Oxiteno)",t:"Programa de Trainee 2027",seg:"Petroquímica",type:"trainee",status:"closed",end:null,
   cities:["São Paulo","Mauá","Suzano","Tremembé","Camaçari","Triunfo"],pay:"não divulgada",gmin:"2024-12",gmax:"2026-12",req:"formado",
   note:"Trainee de 12 meses que cita Eng. Química nominalmente, com base em SP e projetos em fábricas como Mauá. Pedia formatura entre dez/2024 e dez/2026, inglês avançado e Excel; divulgado em outubro e já encerrado. Referência para 2028, quando a sua turma deve entrar na janela.",
